@@ -1,58 +1,87 @@
-var express = require('express');
-var router = express.Router();
-var axios = require("axios");
+var express = require('express')
+var router = express.Router()
+var request = require('../utils/AjaxRequest.js')
+var clientModel = require('../models/clients.js')
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-    res.render('index', { title: 'Express' });
+router.get('/', async function(req, res, next) {
+
+    res.render('index', { title: 'SERVIDOR CONEXPRO' });
+
 });
 
-router.get('/login', async function(req, res, next) {
+router.post('/signin', async function(req, res, next) {
 
-  const options = {
-      method: 'post',
-      data: {'codigo': 'bdso9f', 'correo': 'manuales2010@gmail.com', 'token' : 'QldmZUhaNnkzcGxJbFNiZ0xKenlFQT09'},
-      url: 'http://172.16.40.58/api/v1/GetClientsDetails'
-};
+    let userEmail = req.query.email;
+    let userPass = req.query.password;
 
-  await axios(options)
-  .then(async function (response) {
+    let options = {
+        method: 'post',
+        params: {
+            codigo: userPass, correo: userEmail, token : 'QldmZUhaNnkzcGxJbFNiZ0xKenlFQT09'
+        },
+        url: 'http://172.16.40.58/api/v1/GetClientsDetails'
+    }
 
-      let userData = response.data.datos[0]
- 
-      console.log(userData)
-  })
-  .catch(function(error) { 
+    await request.ajax(options)
+    .then(async function (response) {
 
-      console.log("ERROR")
-      console.log(error.data)
+        if(response.status === 200 && response.hasOwnProperty('data')) {
 
-  })
+            /* Check if exist user data */
+            if(response.data.hasOwnProperty('datos')) {
 
-  res.send('SAPE 7')
+                let client = await clientModel.check_client_info();
+
+                let user_data = response.data.datos[0];
+
+                res.send({
+                    response: {
+                        data: {
+                            id: user_data.id,
+                            name: user_data.nombre,
+                            status: user_data.estado
+                        },
+                        message: "Autenticación exitosa!",
+                        status: "success",
+                        status_code: 1
+                    }
+                });
+
+            } else {
+
+                res.send({
+                    response: {
+                        message: "Usuario o contraseña incorrecta",
+                        status: "error",
+                        status_code: 0,
+                    }
+                });
+
+            }
+
+        } else {
+            
+            throw {
+                message: "Error after response"
+            }
+
+        }
+        
+    })
+    .catch(function(error) { 
+
+        res.send({
+            response: {
+                error: error,
+                message: "Ocurrió un error",
+                status: "error",
+                status_code: 0
+            }
+        })
+
+    })
 
 })
-
-router.get('/test', async function(req, res, next) {
-
-    const options = {
-        method: 'post',
-        data: {'idcliente': 2, 'token' : 'QldmZUhaNnkzcGxJbFNiZ0xKenlFQT09'},
-        url: 'http://172.16.40.58/api/v1/GetClientsDetails'
-    };
-
-    await axios(options)
-    .then(async function (response) {
-        console.log(response.data)
-    })
-    .catch(error => 
-
-        console.log("ERROR")
-        //console.log(error.data)
-    )
-    
-    res.send('SAPE 2')
-
-});
 
 module.exports = router;
