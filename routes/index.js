@@ -12,8 +12,8 @@ router.get('/', async function(req, res, next) {
 
 router.post('/signin', async function(req, res, next) {
 
-    let userEmail = req.query.email;
-    let userPass = req.query.password;
+    let userEmail = req.query.email
+    let userPass = req.query.password
 
     let options = {
         method: 'post',
@@ -31,20 +31,22 @@ router.post('/signin', async function(req, res, next) {
             /* Check if exist user data */
             if(response.data.hasOwnProperty('datos')) {
 
-                let client = await clientModel.check_client_info();
+                let client = await clientModel.check_client_info()
 
-                let user_data = response.data.datos[0];
-
+                let user_data = response.data.datos[0]
+                let userStatusCode = (user_data.estado === "ACTIVO") ? 1 : 0
+  
                 res.send({
                     response: {
                         data: {
                             id: user_data.id,
                             name: user_data.nombre,
-                            status: user_data.estado
+                            status: user_data.estado,
+                            statusCode: userStatusCode
                         },
                         message: "Autenticación exitosa!",
                         status: "success",
-                        status_code: 1
+                        statusCode: 1
                     }
                 });
 
@@ -54,7 +56,7 @@ router.post('/signin', async function(req, res, next) {
                     response: {
                         message: "Usuario o contraseña incorrecta",
                         status: "error",
-                        status_code: 0,
+                        statusCode: 0,
                     }
                 });
 
@@ -76,7 +78,7 @@ router.post('/signin', async function(req, res, next) {
                 error: error,
                 message: "Ocurrió un error",
                 status: "error",
-                status_code: 0
+                statusCode: 0
             }
         })
 
