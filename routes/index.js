@@ -34,8 +34,6 @@ router.post('/signin', async function(req, res, next) {
             user_data.id
         ]
         let client = await clientModel.checkClientInfo(params)
-        res.send(client)
-        return
 
         res.send({
             response: {

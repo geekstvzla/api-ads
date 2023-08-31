@@ -17,9 +17,20 @@ const checkClientInfo = (params) => {
             } else {
 
                 db.query('SELECT @response as response', (err2, result2) => {
+
+                    if(err2) {
+    
+                        reject({
+                            error: err,
+                            response: "Error fetching data from the database"
+                        })
+            
+                    } else {
                     
-                    let outputParam = JSON.parse(result2[0].response);
-                    resolve(outputParam)
+                        let outputParam = JSON.parse(result2[0].response);
+                        resolve(outputParam)
+                        
+                    }   
 
                 })
     
