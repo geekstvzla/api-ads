@@ -1,6 +1,6 @@
 let db = require('../config/database.js');
 
-const check_client_info = () => {
+const checkClientInfo = () => {
 
     return new Promise(function(resolve, reject) { 
 
@@ -26,5 +26,5 @@ const check_client_info = () => {
 };
 
 module.exports = {
-    check_client_info
+    checkClientInfo
 };
