@@ -1,30 +1,36 @@
 let db = require('../config/database.js');
 
-const checkClientInfo = () => {
+const checkClientInfo = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
-        db.query('SELECT * FROM clients', function(err, rows) {
+        let queryString = `CALL sp_check_client_info(?,?,?,@response);`
+        db.query(queryString, params, function(err, result) {
 
             if(err) {
     
                 reject({
                     error: err,
                     response: "error"
-                });
+                })
     
             } else {
-                
-                resolve(rows);
+
+                db.query('SELECT @response as response', (err2, result2) => {
+                    
+                    let outputParam = JSON.parse(result2[0].response);
+                    resolve(outputParam)
+
+                })
     
             }
     
-        });
+        })
 
-    });
+    })
     
-};
+}
 
 module.exports = {
     checkClientInfo
-};
+}

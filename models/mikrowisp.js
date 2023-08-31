@@ -7,7 +7,7 @@ const apiSettings = () => {
 
         let queryString = `SELECT * FROM conexpro.vw_api_settings;`
 
-        db.query(queryString, function(err, rows) {
+        db.query(queryString, function(err, result) {
 
             if(err) {
     
@@ -18,15 +18,15 @@ const apiSettings = () => {
     
             } else {
                 
-                resolve(rows[0]);
+                resolve(result[0])
     
             }
     
-        });
+        })
 
-    });
+    })
     
-};
+}
 
 const apiRequest = (params) => {
 
@@ -61,11 +61,11 @@ const apiRequest = (params) => {
     
         })
 
-    });
+    })
     
-};
+}
 
 module.exports = {
     apiRequest,
     apiSettings
-};
+}

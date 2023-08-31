@@ -1,6 +1,5 @@
 var express = require('express')
 var router = express.Router()
-var request = require('../utils/AjaxRequest.js')
 var clientModel = require('../models/clients.js')
 var mikrowispModel = require('../models/mikrowisp.js')
 
@@ -29,7 +28,14 @@ router.post('/signin', async function(req, res, next) {
 
         let user_data = apiReq.datos[0]
         let userStatusCode = (user_data.estado === "ACTIVO") ? 1 : 0
-        let client = await clientModel.checkClientInfo()
+        let params = [
+            userEmail,
+            user_data.nombre,
+            user_data.id
+        ]
+        let client = await clientModel.checkClientInfo(params)
+        res.send(client)
+        return
 
         res.send({
             response: {
