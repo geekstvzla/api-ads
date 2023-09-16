@@ -42,33 +42,6 @@ const checkClientInfo = (params) => {
     
 }
 
-const clientExist = (params) => {
-
-    return new Promise(function(resolve, reject) { 
-
-        let queryString = `SELECT * FROM conexpro.vw_clients c WHERE c.client_id = ?;`
-        db.query(queryString, params, function(err, result) {
-
-            if(err) {
-    
-                reject({
-                    error: err,
-                    response: "error"
-                })
-    
-            } else {
-
-                resolve(result)
-    
-            }
-    
-        })
-
-    })
-
-}
-
 module.exports = {
-    checkClientInfo,
-    clientExist
+    checkClientInfo
 }

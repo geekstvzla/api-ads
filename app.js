@@ -10,6 +10,7 @@ const connectLivereload = require("connect-livereload");
 const liveReloadServer = livereload.createServer();
 liveReloadServer.watch(path.join(__dirname, 'public'));
 
+var adsRouter = require('./routes/ads');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -26,6 +27,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/ads', adsRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
