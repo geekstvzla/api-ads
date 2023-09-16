@@ -9,8 +9,25 @@ router.get('/seeAds/', async function(req, res, next) {
 
     let userId = req.query.userId
     let params = [userId]
-    let p = await clientModel.clientExist(params)
-    res.send(p)
+    let client = await clientModel.clientExist(params)
+
+    if(client.length > 0) {
+
+        res.send(client)
+
+    } else {
+
+        res.send({
+            response: {
+                message: "No se encontró ningun cliente con ese ID",
+                status: "error",
+                statusCode: 0
+            }
+        })
+
+    }
+
+    
     /*let apiSettings = await mikrowispModel.apiSettings()
     let params = {
         method: 'post',
