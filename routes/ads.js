@@ -13,7 +13,8 @@ router.get('/seeAds/', async function(req, res, next) {
 
     if(client.length > 0) {
 
-        res.send(client)
+        let ads = await clientModel.adsToSee(params)
+        res.send(ads)
 
     } else {
 
@@ -26,46 +27,6 @@ router.get('/seeAds/', async function(req, res, next) {
         })
 
     }
-
-    
-    /*let apiSettings = await mikrowispModel.apiSettings()
-    let params = {
-        method: 'post',
-        params: {
-            correo: userEmail, token : apiSettings.token
-        },
-        url: apiSettings.url+'GetClientsDetails'
-    }
-    let apiReq = await mikrowispModel.apiRequest(params)*/
-
-    /*if(apiReq.hasOwnProperty('datos')) {
-
-        let user_data = apiReq.datos[0]
-
-        res.send({
-            response: {
-                data: {
-                    id: user_data.id,
-                    name: user_data.nombre,
-                    password: user_data.codigo
-                },
-                message: "Datos enviados a tu correo electrónico!",
-                status: "success",
-                statusCode: 1
-            }
-        })
-
-    } else {
-
-        res.send({
-            response: {
-                message: "No se encontró ningun usuario con ese correo electrónico",
-                status: "error",
-                statusCode: 0,
-            }
-        })
-
-    }*/
 
 })
 
