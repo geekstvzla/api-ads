@@ -13,10 +13,10 @@ const adsToSee = (params) => {
                 SELECT ac.ad_id
                 FROM conexpro.ads_client ac
                 WHERE ac.client_id = ?
-                AND ac.status_id = 2
+                AND ac.status_id = 1
             )
-            AND a.ads_status_id = 1
-            AND a.ads_due_date > NOW()
+            AND a.ad_status_id = 1
+            AND a.ad_due_date > NOW()
             ORDER BY a.ad_id ASC
             LIMIT 1;`
         db.query(queryString, params, function(err, adsData) {
@@ -35,7 +35,7 @@ const adsToSee = (params) => {
 
                 if(adsData.length > 0) {
 
-                    let adsId = adsData[0].ads_id
+                    let adId = adsData[0].ad_id
                     let queryString = `
                         SELECT a.ads_type_id,
                             a.ads_type_desc,
@@ -46,7 +46,7 @@ const adsToSee = (params) => {
                         WHERE a.ad_id = ?
                         AND a.ads_content_status_id = 1
                         ORDER BY a.ads_content_order ASC;`
-                    db.query(queryString, [adsId], function(err, adsContent) {
+                    db.query(queryString, [adId], function(err, adsContent) {
 
                         if(err) {
 
@@ -64,7 +64,7 @@ const adsToSee = (params) => {
                                 response: {
                                     data: {
                                         ad_content: adsContent,
-                                        ad_id: adsData[0].ads_id,
+                                        ad_id: adsData[0].ad_id,
                                         sponsor_id: adsData[0].sponsor_id,
                                         sponsor_name: adsData[0].sponsor_name
                                     },
