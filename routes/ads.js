@@ -13,7 +13,7 @@ router.get('/seeAds/', async function(req, res, next) {
 
     if(client.length > 0) {
 
-        let ads = await clientModel.adsToSee(params)
+        let ads = await adsModel.adsToSee(params)
         res.send(ads)
 
     } else {
@@ -27,6 +27,18 @@ router.get('/seeAds/', async function(req, res, next) {
         })
 
     }
+
+})
+
+/* Vio publicidad */
+router.post('/viewedAd/', async function(req, res, next) {
+
+    let userId = req.query.userId
+    let adsId = req.query.adId
+    let params = [userId, adId]
+    let response = await ads.viewedAd(params)
+
+    res(response)
 
 })
 
