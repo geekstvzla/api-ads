@@ -38,7 +38,7 @@ router.post('/viewedAd/', async function(req, res, next) {
     let params = [userId, adId]
     let response = await adsModel.viewedAd(params)
 
-    res(response)
+    res.send(response)
 
 })
 
