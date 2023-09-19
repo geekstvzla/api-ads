@@ -34,9 +34,9 @@ router.get('/seeAds/', async function(req, res, next) {
 router.post('/viewedAd/', async function(req, res, next) {
 
     let userId = req.query.userId
-    let adsId = req.query.adId
+    let adId = req.query.adId
     let params = [userId, adId]
-    let response = await ads.viewedAd(params)
+    let response = await adsModel.viewedAd(params)
 
     res(response)
 
