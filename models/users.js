@@ -77,7 +77,37 @@ const clientExist = (params) => {
 
 }
 
+const clientDetails = (params) => {
+
+    return new Promise(function(resolve, reject) { 
+
+        let queryString = `SELECT * FROM conexpro.vw_clients c WHERE c.client_id = ?;`
+        db.query(queryString, params, function(err, result) {
+
+            if(err) {
+    
+                reject({
+                    response: {
+                        message: "Error al tratar de ejecutar la consulta",
+                        status: "error",
+                        statusCode: 0
+                    }
+                })
+    
+            } else {
+
+                resolve(result)
+    
+            }
+    
+        })
+
+    })
+
+}
+
 module.exports = {
     checkClientInfo,
+    clientDetails,
     clientExist
 }

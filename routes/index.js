@@ -1,6 +1,6 @@
 var express = require('express')
 var router = express.Router()
-var clientModel = require('../models/clients.js')
+var usersModel = require('../models/users.js')
 var mikrowispModel = require('../models/mikrowisp.js')
 
 /* GET home page. */
@@ -26,22 +26,25 @@ router.post('/signin', async function(req, res, next) {
 
     if(apiReq.hasOwnProperty('datos')) {
 
-        let user_data = apiReq.datos[0]
-        let userStatusCode = (user_data.estado === "ACTIVO") ? 1 : 0
+        let userData = apiReq.datos[0]
+        let userStatusCode = (userData.estado === "ACTIVO") ? 1 : 0
         let params = [
             userEmail,
-            user_data.nombre,
-            user_data.id
+            userData.nombre,
+            userData.id
         ]
-        let client = await clientModel.checkClientInfo(params)
+        let client = await usersModel.checkClientInfo(params)
 
         res.send({
             response: {
                 data: {
-                    id: user_data.id,
-                    name: user_data.nombre,
-                    status: user_data.estado,
-                    statusCode: userStatusCode
+                    id: userData.id,
+                    email: userData.correo,
+                    name: userData.nombre,
+                    /*status: userData.estado,
+                    statusCode: userStatusCode*/
+                    status: "INACTIVO",
+                    statusCode: 0
                 },
                 message: "Autenticación exitosa!",
                 status: "success",
@@ -78,14 +81,14 @@ router.post('/recoverPassword', async function(req, res, next) {
 
     if(apiReq.hasOwnProperty('datos')) {
 
-        let user_data = apiReq.datos[0]
+        let userData = apiReq.datos[0]
 
         res.send({
             response: {
                 data: {
-                    id: user_data.id,
-                    name: user_data.nombre,
-                    password: user_data.codigo
+                    id: userData.id,
+                    name: userData.nombre,
+                    password: userData.codigo
                 },
                 message: "Datos enviados a tu correo electrónico!",
                 status: "success",

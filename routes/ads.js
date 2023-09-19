@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var adsModel = require('../models/ads.js')
-var clientModel = require('../models/clients.js')
+var usersModel = require('../models/users.js')
 var mikrowispModel = require('../models/mikrowisp.js')
 
 /* Ver Publicidad */
@@ -9,7 +9,7 @@ router.get('/seeAds/', async function(req, res, next) {
 
     let userId = req.query.userId
     let params = [userId]
-    let client = await clientModel.clientExist(params)
+    let client = await usersModel.clientExist(params)
 
     if(client.length > 0) {
 
