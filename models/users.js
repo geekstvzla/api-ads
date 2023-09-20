@@ -12,23 +12,37 @@ const activateClient = (userId) => {
             let apiParams = {idcliente: dataClient.mikrowisp_id}
             let apiReq = await mikrowispModel.apiRequest('post', 'ActiveService', apiParams)
 
-            if(!apiReq.hasOwnProperty('error')) {
+            if(apiReq.hasOwnProperty('estado')) {
 
-                resolve({
-                    response: {
-                        message: "Cliente activado exitosamente!",
-                        status: "success",
-                        statusCode: 1
-                    }
-                })
+                if(apiReq.estado === "error") {
+
+                    resolve({
+                        response: {
+                            message: "El cliente ya se encuentra en estatus ACTIVO",
+                            status: "success",
+                            statusCode: 1
+                        }
+                    })
+
+                } else {
+
+                    resolve({
+                        response: {
+                            message: "Cliente activado exitosamente!",
+                            status: "success",
+                            statusCode: 1
+                        }
+                    })
+
+                }
 
             } else {
 
                 resolve({
                     response: {
-                        message: "El cliente ya se encuentra en estatus ACTIVO",
-                        status: "success",
-                        statusCode: 1
+                        message: "Error al tratar de consultar al cliente en Mikrowisp",
+                        status: "error",
+                        statusCode: 0
                     }
                 })
 
@@ -38,7 +52,7 @@ const activateClient = (userId) => {
 
             resolve({
                 response: {
-                    message: "Error al tratar de consultar al cliente",
+                    message: "Error al tratar de consultar al cliente en la Base de Datos",
                     status: "error",
                     statusCode: 0
                 }
