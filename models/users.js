@@ -1,7 +1,7 @@
 let db = require('../config/database.js')
 mikrowispModel = require('./mikrowisp.js')
 
-const checkClientInfo = (params) => {
+const checkUserInfo = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
@@ -128,9 +128,69 @@ const recoverPassword = (userEmail) => {
 
 }
 
+const signin = (params) => {
+    
+    return new Promise(async function(resolve, reject) { 
+
+        let apiSettings = await mikrowispModel.apiSettings()
+        let apiParams = {
+            method: 'post',
+            params: {
+                codigo: params.userPass, correo: params.userEmail, token : apiSettings.token
+            },
+            url: apiSettings.url+'GetClientsDetails'
+        }
+
+        let apiReq = await mikrowispModel.apiRequest(apiParams)
+
+        if(apiReq.hasOwnProperty('datos')) {
+
+            let userData = apiReq.datos[0]
+            let userStatusCode = (userData.estado === "ACTIVO") ? 1 : 0
+            let params = [
+                userData.correo,
+                userData.nombre,
+                userData.id
+            ]
+            let client = await checkUserInfo(params)
+
+            resolve({
+                response: {
+                    data: {
+                        id: userData.id,
+                        email: userData.correo,
+                        name: userData.nombre,
+                        /*status: userData.estado,
+                        statusCode: userStatusCode*/
+                        status: "SUSPENDIDO",
+                        statusCode: 0
+                    },
+                    message: "Autenticación exitosa!",
+                    status: "success",
+                    statusCode: 1
+                }
+            })
+
+        } else {
+
+            resolve({
+                response: {
+                    message: "Usuario o contraseña incorrecta",
+                    status: "error",
+                    statusCode: 0
+                }
+            })
+
+        }
+
+    })
+
+}
+
 module.exports = {
-    checkClientInfo,
+    checkUserInfo,
     clientDetails,
     clientExist,
-    recoverPassword
+    recoverPassword,
+    signin
 }

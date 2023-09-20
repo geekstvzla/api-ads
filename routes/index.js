@@ -12,55 +12,10 @@ router.post('/signin', async function(req, res, next) {
 
     let userEmail = req.query.email
     let userPass = req.query.password
-    let apiSettings = await mikrowispModel.apiSettings()
-    let params = {
-        method: 'post',
-        params: {
-            codigo: userPass, correo: userEmail, token : apiSettings.token
-        },
-        url: apiSettings.url+'GetClientsDetails'
-    }
-    let apiReq = await mikrowispModel.apiRequest(params)
-
-    if(apiReq.hasOwnProperty('datos')) {
-
-        let userData = apiReq.datos[0]
-        let userStatusCode = (userData.estado === "ACTIVO") ? 1 : 0
-        let params = [
-            userEmail,
-            userData.nombre,
-            userData.id
-        ]
-        let client = await usersModel.checkClientInfo(params)
-
-        res.send({
-            response: {
-                data: {
-                    id: userData.id,
-                    email: userData.correo,
-                    name: userData.nombre,
-                    /*status: userData.estado,
-                    statusCode: userStatusCode*/
-                    status: "SUSPENDIDO",
-                    statusCode: 0
-                },
-                message: "Autenticación exitosa!",
-                status: "success",
-                statusCode: 1
-            }
-        })
-
-    } else {
-
-        res.send({
-            response: {
-                message: "Usuario o contraseña incorrecta",
-                status: "error",
-                statusCode: 0,
-            }
-        })
-
-    }
+    let params = {userEmail: userEmail, userPass: userPass}
+    
+    let signin = await usersModel.signin(params)
+    res.send(signin)
 
 })
 
