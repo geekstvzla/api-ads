@@ -91,7 +91,7 @@ const clientExist = (params) => {
     
             } else {
 
-                resolve(result)
+                resolve((result.length > 0) ? true : false)
     
             }
     
@@ -168,7 +168,7 @@ const recoverPassword = (userEmail) => {
                         name: userData.nombre,
                         password: userData.codigo
                     },
-                    message: "Datos enviados a tu correo electrónicosss2!",
+                    message: "Datos enviados a tu correo electrónico!",
                     status: "success",
                     statusCode: 1
                 }

@@ -10,7 +10,7 @@ router.get('/seeAds/', async function(req, res, next) {
     let params = [userId]
     let client = await usersModel.clientExist(params)
 
-    if(client.length > 0) {
+    if(client) {
 
         let ads = await adsModel.adsToSee(params)
         res.send(ads)

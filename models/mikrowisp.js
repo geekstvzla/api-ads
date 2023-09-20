@@ -74,24 +74,3 @@ exports.apiRequest = (method, path, params) => {
     })
     
 }
-
-exports.userExist = () => {
-
-    return new Promise(async function(resolve, reject) { 
-
-        let apiSettings = await _this.apiSettings()
-        let params = {
-            method: 'post',
-            params: {
-                correo: "manuales2010@gmail.com", token : apiSettings.token
-            },
-            url: apiSettings.url+'GetClientsDetails'
-        }
-
-        let apiReq = await _this.apiRequest(params)
-
-        resolve(apiReq)
-
-    })
-
-}
