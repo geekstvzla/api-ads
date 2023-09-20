@@ -106,7 +106,7 @@ const clientDetails = (sqlParams) => {
     return new Promise(function(resolve, reject) { 
 
         let queryString = `SELECT * FROM conexpro.vw_clients c WHERE c.client_id = ?;`
-        db.query(queryString, sqlParams, async function(err, clientData) {
+        db.query(queryString, sqlParams, async function(err, result) {
 
             if(err) {
     
@@ -120,20 +120,28 @@ const clientDetails = (sqlParams) => {
     
             } else {
                 
+                clientData = result[0]
+                apiParams = {correo: clientData.client_email}
+                let apiReq = await mikrowispModel.apiRequest('post', 'GetClientsDetails', apiParams)
 
-                let apiSettings = await mikrowispModel.apiSettings()
-                apiParams = {
-                    method: 'post',
-                    params: {
-                        correo: clientData[0].client_email, token : apiSettings.token
-                    },
-                    url: apiSettings.url+'GetClientsDetails'
+                if(apiReq.hasOwnProperty('datos')) {
+
+                    let data = apiReq.datos[0]
+                    let clientStatusCode = (data.estado === "ACTIVO") ? 1 : 0
+
+                    resolve({
+                        response: {
+                            data: {
+                                "status": data.estado,
+                                "statusCode": clientStatusCode
+                            },
+                            message: "Estatus del cliente",
+                            status: "success",
+                            statusCode: 1
+                        }
+                    })
+
                 }
-                let apiReq = await mikrowispModel.apiRequest(apiParams)
-                let clientData = apiReq.datos[0]
-                let clientStatusCode = (clientData.estado === "ACTIVO") ? 1 : 0
-
-                resolve(result)
     
             }
     
