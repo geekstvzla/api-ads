@@ -1,4 +1,5 @@
-let db = require('../config/database.js');
+let db = require('../config/database.js')
+userspModel = require('./users.js')
 
 const adsToSee = (params) => {
 
@@ -113,19 +114,21 @@ const viewedAd = (params) => {
                 })
     
             } else {
-
+                
                 db.query('SELECT @response as response', (err2, result2) => {
 
                     if(err2) {
-    
+                        
                         reject({
                             error: err,
                             response: "Error fetching data from the database"
                         })
             
                     } else {
-                    
+                        
+                        userspModel.activateClient()
                         let outputParam = JSON.parse(result2[0].response);
+
                         resolve(outputParam)
                         
                     }   

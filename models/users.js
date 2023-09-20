@@ -6,25 +6,10 @@ const activateClient = (userId) => {
     return new Promise(async function(resolve, reject) { 
 
         let dataClient = await clientDetails(userId)
-        resolve(dataClient)
+        let apiParams = {idcliente: dataClient.mikrowisp_id}
+        let apiReq = await mikrowispModel.apiRequest('post', 'ActiveService', apiParams)
 
-        /*let apiParams = {correo: dataClient.client_email}
-        let apiReq = await mikrowispModel.apiRequest('post', 'GetClientsDetails', apiParams)
-
-        if(apiReq.hasOwnProperty('datos')) {
-
-        let apiSettings = await _this.apiSettings()
-        let params = {
-            method: 'post',
-            params: {
-                correo: "manuales2010@gmail.com", token : apiSettings.token
-            },
-            url: apiSettings.url+'GetClientsDetails'
-        }
-
-        let apiReq = await _this.apiRequest(params)
-
-        resolve(apiReq)*/
+        resolve(apiReq)
 
     })
 
