@@ -1,9 +1,17 @@
 let db = require('../config/database.js')
 mikrowispModel = require('./mikrowisp.js')
 
-const activateClient = () => {
+const activateClient = (userId) => {
 
     return new Promise(async function(resolve, reject) { 
+
+        let dataClient = await clientDetails(userId)
+        resolve(dataClient)
+
+        /*let apiParams = {correo: dataClient.client_email}
+        let apiReq = await mikrowispModel.apiRequest('post', 'GetClientsDetails', apiParams)
+
+        if(apiReq.hasOwnProperty('datos')) {
 
         let apiSettings = await _this.apiSettings()
         let params = {
@@ -16,13 +24,12 @@ const activateClient = () => {
 
         let apiReq = await _this.apiRequest(params)
 
-        resolve(apiReq)
+        resolve(apiReq)*/
 
     })
 
 
 }
-
 
 const checkUserInfo = (params) => {
 
@@ -101,12 +108,12 @@ const clientExist = (params) => {
 
 }
 
-const clientDetails = (sqlParams) => {
+const clientDetails = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
         let queryString = `SELECT * FROM conexpro.vw_clients c WHERE c.client_id = ?;`
-        db.query(queryString, sqlParams, async function(err, result) {
+        db.query(queryString, params, async function(err, result) {
 
             if(err) {
     
@@ -120,31 +127,42 @@ const clientDetails = (sqlParams) => {
     
             } else {
                 
-                apiParams = {correo: result[0].client_email}
-                let apiReq = await mikrowispModel.apiRequest('post', 'GetClientsDetails', apiParams)
-
-                if(apiReq.hasOwnProperty('datos')) {
-
-                    let clientData = apiReq.datos[0]
-                    let clientStatusCode = (clientData.estado === "ACTIVO") ? 1 : 0
-
-                    resolve({
-                        response: {
-                            data: {
-                                "status": clientData.estado,
-                                "statusCode": clientStatusCode
-                            },
-                            message: "Estatus del cliente",
-                            status: "success",
-                            statusCode: 1
-                        }
-                    })
-
-                }
+                resolve(result[0])
     
             }
     
         })
+
+    })
+
+}
+
+const clientStatus = (params) => {
+
+    return new Promise(async function(resolve, reject) { 
+
+        let data = await clientDetails(params)
+        let apiParams = {correo: data.client_email}
+        let apiReq = await mikrowispModel.apiRequest('post', 'GetClientsDetails', apiParams)
+       
+        if(apiReq.hasOwnProperty('datos')) {
+
+            let clientData = apiReq.datos[0]
+            let clientStatusCode = (clientData.estado === "ACTIVO") ? 1 : 0
+
+            resolve({
+                response: {
+                    data: {
+                        "status": clientData.estado,
+                        "statusCode": clientStatusCode
+                    },
+                    message: "Estatus del cliente",
+                    status: "success",
+                    statusCode: 1
+                }
+            })
+
+        }
 
     })
 
@@ -249,6 +267,7 @@ module.exports = {
     checkUserInfo,
     clientDetails,
     clientExist,
+    clientStatus,
     recoverPassword,
     signin
 }
