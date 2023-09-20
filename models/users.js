@@ -147,16 +147,8 @@ const recoverPassword = (userEmail) => {
 
     return new Promise(async function(resolve, reject) { 
 
-        let apiSettings = await mikrowispModel.apiSettings()
-        let apiParams = {
-            method: 'post',
-            params: {
-                correo: userEmail, token : apiSettings.token
-            },
-            url: apiSettings.url+'GetClientsDetails'
-        }
-
-        let apiReq = await mikrowispModel.apiRequest(apiParams)
+        let apiParams = {correo: userEmail}
+        let apiReq = await mikrowispModel.apiRequest('post', 'GetClientsDetails', apiParams)
 
         if(apiReq.hasOwnProperty('datos')) {
 
