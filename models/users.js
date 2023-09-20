@@ -122,7 +122,34 @@ const recoverPassword = (userEmail) => {
 
         let apiReq = await mikrowispModel.apiRequest(apiParams)
 
-        resolve(apiReq)
+        if(apiReq.hasOwnProperty('datos')) {
+
+            let userData = apiReq.datos[0]
+    
+            resolve({
+                response: {
+                    data: {
+                        id: userData.id,
+                        name: userData.nombre,
+                        password: userData.codigo
+                    },
+                    message: "Datos enviados a tu correo electrónicosss2!",
+                    status: "success",
+                    statusCode: 1
+                }
+            })
+    
+        } else {
+    
+            resolve({
+                response: {
+                    message: "No se encontró ningun usuario con ese correo electrónico",
+                    status: "error",
+                    statusCode: 0,
+                }
+            })
+    
+        }
 
     })
 
