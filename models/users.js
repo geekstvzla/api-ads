@@ -1,4 +1,5 @@
-let db = require('../config/database.js');
+let db = require('../config/database.js')
+mikrowispModel = require('./mikrowisp.js')
 
 const checkClientInfo = (params) => {
 
@@ -106,8 +107,30 @@ const clientDetails = (params) => {
 
 }
 
+const recoverPassword = (userEmail) => {
+
+    return new Promise(async function(resolve, reject) { 
+
+        let apiSettings = await mikrowispModel.apiSettings()
+        let apiParams = {
+            method: 'post',
+            params: {
+                correo: userEmail, token : apiSettings.token
+            },
+            url: apiSettings.url+'GetClientsDetails'
+        }
+
+        let apiReq = await mikrowispModel.apiRequest(apiParams)
+
+        resolve(apiReq)
+
+    })
+
+}
+
 module.exports = {
     checkClientInfo,
     clientDetails,
-    clientExist
+    clientExist,
+    recoverPassword
 }

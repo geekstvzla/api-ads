@@ -5,10 +5,8 @@ var mikrowispModel = require('../models/mikrowisp.js')
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
-
     res.render('index', { title: 'SERVIDOR CONEXPRO' });
-
-});
+})
 
 router.post('/signin', async function(req, res, next) {
 
@@ -43,7 +41,7 @@ router.post('/signin', async function(req, res, next) {
                     name: userData.nombre,
                     /*status: userData.estado,
                     statusCode: userStatusCode*/
-                    status: "INACTIVO",
+                    status: "SUSPENDIDO",
                     statusCode: 0
                 },
                 message: "Autenticación exitosa!",
@@ -60,7 +58,7 @@ router.post('/signin', async function(req, res, next) {
                 status: "error",
                 statusCode: 0,
             }
-        });
+        })
 
     }
 
@@ -69,19 +67,11 @@ router.post('/signin', async function(req, res, next) {
 router.post('/recoverPassword', async function(req, res, next) {
 
     let userEmail = req.query.email
-    let apiSettings = await mikrowispModel.apiSettings()
-    let params = {
-        method: 'post',
-        params: {
-            correo: userEmail, token : apiSettings.token
-        },
-        url: apiSettings.url+'GetClientsDetails'
-    }
-    let apiReq = await mikrowispModel.apiRequest(params)
+    let data = await usersModel.recoverPassword(userEmail)
 
-    if(apiReq.hasOwnProperty('datos')) {
+    if(data.hasOwnProperty('datos')) {
 
-        let userData = apiReq.datos[0]
+        let userData = data.datos[0]
 
         res.send({
             response: {
@@ -90,7 +80,7 @@ router.post('/recoverPassword', async function(req, res, next) {
                     name: userData.nombre,
                     password: userData.codigo
                 },
-                message: "Datos enviados a tu correo electrónico!",
+                message: "Datos enviados a tu correo electrónicosss2!",
                 status: "success",
                 statusCode: 1
             }
