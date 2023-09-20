@@ -120,19 +120,18 @@ const clientDetails = (sqlParams) => {
     
             } else {
                 
-                clientData = result[0]
-                apiParams = {correo: clientData.client_email}
+                apiParams = {correo: result[0].client_email}
                 let apiReq = await mikrowispModel.apiRequest('post', 'GetClientsDetails', apiParams)
 
                 if(apiReq.hasOwnProperty('datos')) {
 
-                    let data = apiReq.datos[0]
-                    let clientStatusCode = (data.estado === "ACTIVO") ? 1 : 0
+                    let clientData = apiReq.datos[0]
+                    let clientStatusCode = (clientData.estado === "ACTIVO") ? 1 : 0
 
                     resolve({
                         response: {
                             data: {
-                                "status": data.estado,
+                                "status": clientData.estado,
                                 "statusCode": clientStatusCode
                             },
                             message: "Estatus del cliente",
