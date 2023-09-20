@@ -1,7 +1,6 @@
 var express = require('express')
 var router = express.Router()
 var usersModel = require('../models/users.js')
-var mikrowispModel = require('../models/mikrowisp.js')
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
@@ -10,19 +9,16 @@ router.get('/', async function(req, res, next) {
 
 router.post('/signin', async function(req, res, next) {
 
-    let userEmail = req.query.email
-    let userPass = req.query.password
-    let params = {userEmail: userEmail, userPass: userPass}
+    let params = {userEmail: req.query.email, userPass: req.query.password}
     let signin = await usersModel.signin(params)
-    
+
     res.send(signin)
 
 })
 
 router.post('/recoverPassword', async function(req, res, next) {
 
-    let userEmail = req.query.email
-    let data = await usersModel.recoverPassword(userEmail)
+    let data = await usersModel.recoverPassword(req.query.email)
 
     res.send(data)
 

@@ -1,6 +1,29 @@
 let db = require('../config/database.js')
 mikrowispModel = require('./mikrowisp.js')
 
+const activateClient = () => {
+
+    return new Promise(async function(resolve, reject) { 
+
+        let apiSettings = await _this.apiSettings()
+        let params = {
+            method: 'post',
+            params: {
+                correo: "manuales2010@gmail.com", token : apiSettings.token
+            },
+            url: apiSettings.url+'GetClientsDetails'
+        }
+
+        let apiReq = await _this.apiRequest(params)
+
+        resolve(apiReq)
+
+    })
+
+
+}
+
+
 const checkUserInfo = (params) => {
 
     return new Promise(function(resolve, reject) { 
@@ -78,12 +101,12 @@ const clientExist = (params) => {
 
 }
 
-const clientDetails = (params) => {
+const clientDetails = (sqlParams) => {
 
     return new Promise(function(resolve, reject) { 
 
         let queryString = `SELECT * FROM conexpro.vw_clients c WHERE c.client_id = ?;`
-        db.query(queryString, params, function(err, result) {
+        db.query(queryString, sqlParams, async function(err, clientData) {
 
             if(err) {
     
@@ -96,6 +119,19 @@ const clientDetails = (params) => {
                 })
     
             } else {
+                
+
+                let apiSettings = await mikrowispModel.apiSettings()
+                apiParams = {
+                    method: 'post',
+                    params: {
+                        correo: clientData[0].client_email, token : apiSettings.token
+                    },
+                    url: apiSettings.url+'GetClientsDetails'
+                }
+                let apiReq = await mikrowispModel.apiRequest(apiParams)
+                let clientData = apiReq.datos[0]
+                let clientStatusCode = (clientData.estado === "ACTIVO") ? 1 : 0
 
                 resolve(result)
     
@@ -159,16 +195,11 @@ const signin = (params) => {
     
     return new Promise(async function(resolve, reject) { 
 
-        let apiSettings = await mikrowispModel.apiSettings()
         let apiParams = {
-            method: 'post',
-            params: {
-                codigo: params.userPass, correo: params.userEmail, token : apiSettings.token
-            },
-            url: apiSettings.url+'GetClientsDetails'
+            codigo: params.userPass, correo: params.userEmail
         }
 
-        let apiReq = await mikrowispModel.apiRequest(apiParams)
+        let apiReq = await mikrowispModel.apiRequest('post', 'GetClientsDetails', apiParams)
 
         if(apiReq.hasOwnProperty('datos')) {
 
@@ -215,6 +246,7 @@ const signin = (params) => {
 }
 
 module.exports = {
+    activateClient,
     checkUserInfo,
     clientDetails,
     clientExist,

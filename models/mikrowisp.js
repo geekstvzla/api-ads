@@ -2,28 +2,6 @@ var _this = this
 let db = require('../config/database.js')
 var request = require('../utils/AjaxRequest.js')
 
-exports.activateClient = () => {
-
-    return new Promise(async function(resolve, reject) { 
-
-        let apiSettings = await _this.apiSettings()
-        let params = {
-            method: 'post',
-            params: {
-                correo: "manuales2010@gmail.com", token : apiSettings.token
-            },
-            url: apiSettings.url+'GetClientsDetails'
-        }
-
-        let apiReq = await _this.apiRequest(params)
-
-        resolve(apiReq)
-
-    })
-
-
-}
-
 exports.apiSettings = () => {
 
     return new Promise(function(resolve, reject) { 
@@ -51,11 +29,20 @@ exports.apiSettings = () => {
     
 }
 
-exports.apiRequest = (params) => {
+exports.apiRequest = (method, path, params) => {
 
-    return new Promise(function(resolve, reject) { 
+    return new Promise(async function(resolve, reject) { 
 
-        request.ajax(params)
+        let apiSettings = await _this.apiSettings()
+
+        params.token = apiSettings.token
+        let apiParams = {
+            method: method,
+            params: params,
+            url: apiSettings.url+path
+        }
+
+        request.ajax(apiParams)
         .then(async function (response) {
 
             if(response.status === 200 && response.hasOwnProperty('data')) {

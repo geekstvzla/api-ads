@@ -2,7 +2,6 @@ var express = require('express')
 var router = express.Router()
 var adsModel = require('../models/ads.js')
 var usersModel = require('../models/users.js')
-var mikrowispModel = require('../models/mikrowisp.js')
 
 /* Ver Publicidad */
 router.get('/seeAds/', async function(req, res, next) {
