@@ -6,13 +6,47 @@ const activateClient = (userId) => {
     return new Promise(async function(resolve, reject) { 
 
         let dataClient = await clientDetails(userId)
-        let apiParams = {idcliente: dataClient.mikrowisp_id}
-        let apiReq = await mikrowispModel.apiRequest('post', 'ActiveService', apiParams)
 
-        resolve(apiReq)
+        if(dataClient.hasOwnProperty('client_id')) {
+
+            let apiParams = {idcliente: dataClient.mikrowisp_id}
+            let apiReq = await mikrowispModel.apiRequest('post', 'ActiveService', apiParams)
+
+            if(!apiReq.hasOwnProperty('error')) {
+
+                resolve({
+                    response: {
+                        message: "Cliente activado exitosamente!",
+                        status: "success",
+                        statusCode: 1
+                    }
+                })
+
+            } else {
+
+                resolve({
+                    response: {
+                        message: "El cliente ya se encuentra en estatus ACTIVO",
+                        status: "success",
+                        statusCode: 1
+                    }
+                })
+
+            }
+
+        } else {
+
+            resolve({
+                response: {
+                    message: "Error al tratar de consultar al cliente",
+                    status: "error",
+                    statusCode: 0
+                }
+            })
+
+        }
 
     })
-
 
 }
 

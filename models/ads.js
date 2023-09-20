@@ -115,7 +115,7 @@ const viewedAd = (params) => {
     
             } else {
                 
-                db.query('SELECT @response as response', (err2, result2) => {
+                db.query('SELECT @response as response', async (err2, result2) => {
 
                     if(err2) {
                         
@@ -126,7 +126,7 @@ const viewedAd = (params) => {
             
                     } else {
                         
-                        userspModel.activateClient()
+                        await userspModel.activateClient()
                         let outputParam = JSON.parse(result2[0].response);
 
                         resolve(outputParam)
