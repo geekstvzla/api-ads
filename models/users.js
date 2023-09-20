@@ -4,8 +4,10 @@ mikrowispModel = require('./mikrowisp.js')
 const activateClient = (userId) => {
 
     return new Promise(async function(resolve, reject) { 
-
-        let dataClient = await clientDetails(userId)
+        
+       
+        var dataClient = await clientDetails(userId)
+        console.log(dataClient)
 
         if(dataClient.hasOwnProperty('client_id')) {
 
@@ -186,8 +188,10 @@ const clientStatus = (params) => {
             resolve({
                 response: {
                     data: {
-                        "status": clientData.estado,
-                        "statusCode": clientStatusCode
+                        /*"status": clientData.estado,
+                        "statusCode": clientStatusCode*/
+                        status: "SUSPENDIDO",
+                        statusCode: 0
                     },
                     message: "Estatus del cliente",
                     status: "success",

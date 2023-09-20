@@ -39,6 +39,7 @@ router.post('/viewedAd/', async function(req, res, next) {
 
     res.send(response)
 
+
 })
 
 module.exports = router;

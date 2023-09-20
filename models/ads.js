@@ -1,5 +1,5 @@
 let db = require('../config/database.js')
-userspModel = require('./users.js')
+usersModel = require('./users.js')
 
 const adsToSee = (params) => {
 
@@ -126,10 +126,18 @@ const viewedAd = (params) => {
             
                     } else {
                         
-                        await userspModel.activateClient()
-                        let outputParam = JSON.parse(result2[0].response);
+                        let outputParam = JSON.parse(result2[0].response)
 
-                        resolve(outputParam)
+                        if(outputParam.response.status_code === 1) {
+
+                            let activate =  await usersModel.activateClient(params[0])
+                            resolve(activate)
+                    
+                        } else {
+                           
+                            resolve(outputParam)
+                    
+                        }
                         
                     }   
 
