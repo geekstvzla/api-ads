@@ -7,7 +7,6 @@ const activateClient = (userId) => {
         
        
         var dataClient = await clientDetails(userId)
-        console.log(dataClient)
 
         if(dataClient.hasOwnProperty('client_id')) {
 
@@ -188,14 +187,22 @@ const clientStatus = (params) => {
             resolve({
                 response: {
                     data: {
-                        /*"status": clientData.estado,
-                        "statusCode": clientStatusCode*/
-                        status: "SUSPENDIDO",
-                        statusCode: 0
+                        "status": clientData.estado,
+                        "statusCode": clientStatusCode
                     },
                     message: "Estatus del cliente",
                     status: "success",
                     statusCode: 1
+                }
+            })
+
+        } else {
+
+            resolve({
+                response: {
+                    message: apiReq.mensaje,
+                    status: "error",
+                    statusCode: 0
                 }
             })
 
@@ -271,11 +278,10 @@ const signin = (params) => {
                     data: {
                         id: userData.id,
                         email: userData.correo,
+                        dateSuspended: userData.fecha_suspendido,
                         name: userData.nombre,
-                        /*status: userData.estado,
-                        statusCode: userStatusCode*/
-                        status: "SUSPENDIDO",
-                        statusCode: 0
+                        status: userData.estado,
+                        statusCode: userStatusCode
                     },
                     message: "Autenticación exitosa!",
                     status: "success",

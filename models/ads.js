@@ -39,10 +39,11 @@ const adsToSee = (params) => {
                     let adId = adsData[0].ad_id
                     let queryString = `
                         SELECT a.ads_type_id,
-                            a.ads_type_desc,
-                            a.ads_url,
-                            a.ads_orientation_id,
-                            a.ads_orientation_desc
+                               a.ads_type_desc,
+                               a.ads_url,
+                               a.play_time,
+                               a.ads_orientation_id,
+                               a.ads_orientation_desc
                         FROM conexpro.vw_ads a
                         WHERE a.ad_id = ?
                         AND a.ads_content_status_id = 1
