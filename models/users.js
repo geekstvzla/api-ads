@@ -302,6 +302,11 @@ const signin = (params) => {
         }
 
     })
+    .catch(function(error) {
+
+        return(error)
+      
+    })
 
 }
 
