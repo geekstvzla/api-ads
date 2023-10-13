@@ -259,10 +259,10 @@ const signin = (params) => {
         let apiParams = {
             codigo: params.userPass, correo: params.userEmail
         }
-
-        let apiReq = await mikrowispModel.apiRequest('post', 'GetClientsDetails', apiParams)
-        resolve(apiReq)
+        resolve(apiParams)
         return
+        let apiReq = await mikrowispModel.apiRequest('post', 'GetClientsDetails', apiParams)
+        
         if(apiReq.hasOwnProperty('datos')) {
 
             let userData = apiReq.datos[0]
