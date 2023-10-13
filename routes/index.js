@@ -7,8 +7,10 @@ router.get('/', async function(req, res, next) {
 })
 
 router.post('/signin', async function(req, res, next) {
-
+    
     let params = {userEmail: req.query.email, userPass: req.query.password}
+    console.log(params)
+    return
     let signin = await usersModel.signin(params)
 
     res.send(signin)
