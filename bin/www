@@ -4,10 +4,10 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('conexpro-mikrowisp-api:server');
-var http = require('http');
-require('dotenv').config();
+var app = require('../app')
+var debug = require('debug')('conexpro-mikrowisp-api:server')
+var http = require('http')
+require('dotenv').config()
 
 /**
  * Get port from environment and store in Express.

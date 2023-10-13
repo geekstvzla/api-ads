@@ -1,12 +1,13 @@
-var mysql = require('mysql');
+var mysql = require('mysql')
+require('dotenv').config()
 
 let settings = {
-    host    : 'localhost',
-    user    : 'conexpro',
-    password: 'apiC0n3xpr0',
-    database: 'ads'
-};
+    host    : process.env.DB_HOST,
+    user    : process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
+}
 
-let db = mysql.createConnection(settings);
+let db = mysql.createConnection(settings)
   
-module.exports = db;
+module.exports = db
