@@ -9,10 +9,10 @@ const adsToSee = (params) => {
             SELECT a.ad_id,
                    a.sponsor_id,
                    a.sponsor_name
-            FROM conexpro.vw_ads a
+            FROM vw_ads a
             WHERE a.ad_id NOT IN(
                 SELECT ac.ad_id
-                FROM conexpro.ads_client ac
+                FROM ads_client ac
                 WHERE ac.client_id = ?
                 AND ac.status_id = 1
             )
@@ -44,7 +44,7 @@ const adsToSee = (params) => {
                                a.play_time,
                                a.ads_orientation_id,
                                a.ads_orientation_desc
-                        FROM conexpro.vw_ads a
+                        FROM vw_ads a
                         WHERE a.ad_id = ?
                         AND a.ads_content_status_id = 1
                         ORDER BY a.ads_content_order ASC;`

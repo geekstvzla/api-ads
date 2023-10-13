@@ -6,7 +6,7 @@ exports.apiSettings = () => {
 
     return new Promise(function(resolve, reject) { 
 
-        let queryString = `SELECT * FROM conexpro.vw_api_settings;`
+        let queryString = `SELECT * FROM vw_api_settings;`
 
         db.query(queryString, function(err, result) {
 

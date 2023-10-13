@@ -117,7 +117,7 @@ const clientExist = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
-        let queryString = `SELECT * FROM conexpro.vw_clients c WHERE c.client_id = ?;`
+        let queryString = `SELECT * FROM vw_clients c WHERE c.client_id = ?;`
         db.query(queryString, params, function(err, result) {
 
             if(err) {
@@ -146,7 +146,7 @@ const clientDetails = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
-        let queryString = `SELECT * FROM conexpro.vw_clients c WHERE c.client_id = ?;`
+        let queryString = `SELECT * FROM vw_clients c WHERE c.client_id = ?;`
         db.query(queryString, params, async function(err, result) {
 
             if(err) {
