@@ -290,8 +290,7 @@ const signin = (params) => {
             })
 
         } else {
-            resolve(apiReq)
-            return
+   
             resolve({
                 response: {
                     message: "Usuario o contraseña incorrecta",
