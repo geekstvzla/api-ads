@@ -25,6 +25,10 @@ exports.apiSettings = () => {
     
         })
 
+    }).catch(function(error) {
+
+        return(error)
+      
     })
     
 }
@@ -57,8 +61,7 @@ exports.apiRequest = (method, path, params) => {
     
             }
         
-        })
-        .catch(function(error) { 
+        }).catch(function(error) { 
     
             reject({
                 response: {
@@ -71,6 +74,11 @@ exports.apiRequest = (method, path, params) => {
     
         })
 
+    })
+    .catch(function(error) {
+
+        return(error)
+      
     })
     
 }

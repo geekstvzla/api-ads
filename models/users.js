@@ -261,7 +261,8 @@ const signin = (params) => {
         }
     
         let apiReq = await mikrowispModel.apiRequest('post', 'GetClientsDetails', apiParams)
-        
+        resolve(apiReq)
+        return
         if(apiReq.hasOwnProperty('datos')) {
 
             let userData = apiReq.datos[0]
@@ -301,8 +302,7 @@ const signin = (params) => {
 
         }
 
-    })
-    .catch(function(error) {
+    }).catch(function(error) {
 
         return(error)
       
