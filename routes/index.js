@@ -3,7 +3,7 @@ var router = express.Router()
 var usersModel = require('../models/users.js')
 
 router.get('/', async function(req, res, next) {
-    res.render('index', { title: 'SERVIDOR CONEXPRO' });
+    res.render('index', { title: 'SERVIDOR CONEXPRO ' });
 })
 
 router.post('/signin', async function(req, res, next) {

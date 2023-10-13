@@ -54,8 +54,4 @@ liveReloadServer.server.once("connection", () => {
   }, 100);
 });
 
-app.listen(3001, function () {
-  console.log('Example app listening on port!');
-});
-
 module.exports = app;
