@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "build": "webpack",
     "start": "node ./bin/www",
     "startdev": "nodemon index.js",
     "watch": "nodemon --ignore public"
@@ -22,6 +23,8 @@
     "request": "^2.88.2"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   }
 }
