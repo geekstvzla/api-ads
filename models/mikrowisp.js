@@ -38,7 +38,8 @@ exports.apiRequest = (method, path, params) => {
     return new Promise(async function(resolve, reject) { 
 
         let apiSettings = await _this.apiSettings()
-
+        resolve(apiSettings)
+        return
         params.token = apiSettings.token
         let apiParams = {
             method: method,
