@@ -212,6 +212,40 @@ const clientStatus = (params) => {
 
 }
 
+const getAppUserId = (params) => {
+
+    return new Promise(function(resolve, reject) { 
+
+        let queryString = `SELECT c.client_id FROM vw_clients c WHERE c.mikrowisp_id = ?;`
+        db.query(queryString, params, async function(err, result) {
+
+            if(err) {
+    
+                reject({
+                    response: {
+                        message: "Error al tratar de ejecutar la consulta",
+                        status: "error",
+                        statusCode: 0
+                    }
+                })
+    
+            } else {
+                
+                resolve(result[0])
+    
+            }
+    
+        })
+
+    }).catch(function(error) {
+
+        return(error)
+      
+    })
+
+
+}
+
 const recoverPassword = (userEmail) => {
 
     return new Promise(async function(resolve, reject) { 
@@ -265,11 +299,15 @@ const signin = (params) => {
         if(apiReq.hasOwnProperty('datos')) {
 
             let userData = apiReq.datos[0]
+
+            let userId = [userData.id]
+            let data = await getAppUserId(userId)
+
             let userStatusCode = (userData.estado === "ACTIVO") ? 1 : 0
             let params = [
                 userData.correo,
                 userData.nombre,
-                userData.id
+                data.client_id
             ]
             let client = await checkUserInfo(params)
 
