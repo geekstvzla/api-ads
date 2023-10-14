@@ -307,14 +307,14 @@ const signin = (params) => {
             let params = [
                 userData.correo,
                 userData.nombre,
-                data.client_id
+                userData.id
             ]
             let client = await checkUserInfo(params)
 
             resolve({
                 response: {
                     data: {
-                        id: userData.id,
+                        id: data.client_id,
                         email: userData.correo,
                         dateSuspended: userData.fecha_suspendido,
                         name: userData.nombre,
