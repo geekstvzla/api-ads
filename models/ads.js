@@ -99,6 +99,8 @@ const adsToSee = (params) => {
 
     }).catch(function(error) {
 
+        console.log("ERROR adsToSee")
+        console.log(error)
         return(error)
       
     })
@@ -155,6 +157,8 @@ const viewedAd = (params) => {
 
     }).catch(function(error) {
 
+        console.log("ERROR viewedAd")
+        console.log(error)
         return(error)
       
     })
