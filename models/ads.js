@@ -56,7 +56,8 @@ const adsToSee = (params) => {
                                 response: {
                                     message: "Error al tratar de ejecutar la consulta",
                                     status: "error",
-                                    statusCode: 0
+                                    statusCode: 0,
+                                    host: params[1]
                                 }
                             })
 
@@ -96,6 +97,10 @@ const adsToSee = (params) => {
     
         })
 
+    }).catch(function(error) {
+
+        return(error)
+      
     })
 
 }
@@ -148,6 +153,10 @@ const viewedAd = (params) => {
     
         })
 
+    }).catch(function(error) {
+
+        return(error)
+      
     })
 
 }

@@ -61,6 +61,10 @@ const activateClient = (userId) => {
 
         }
 
+    }).catch(function(error) {
+
+        return(error)
+      
     })
 
 }
@@ -109,6 +113,10 @@ const checkUserInfo = (params) => {
     
         })
 
+    }).catch(function(error) {
+
+        return(error)
+      
     })
     
 }
@@ -138,6 +146,10 @@ const clientExist = (params) => {
     
         })
 
+    }).catch(function(error) {
+
+        return(error)
+      
     })
 
 }
@@ -167,6 +179,10 @@ const clientDetails = (params) => {
     
         })
 
+    }).catch(function(error) {
+
+        return(error)
+      
     })
 
 }
@@ -208,6 +224,10 @@ const clientStatus = (params) => {
 
         }
 
+    }).catch(function(error) {
+
+        return(error)
+      
     })
 
 }
@@ -282,6 +302,10 @@ const recoverPassword = (userEmail) => {
     
         }
 
+    }).catch(function(error) {
+
+        return(error)
+      
     })
 
 }
