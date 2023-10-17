@@ -324,9 +324,6 @@ const signin = (params) => {
 
             let userData = apiReq.datos[0]
 
-            let userId = [userData.id]
-            let data = await getAppUserId(userId)
-
             let userStatusCode = (userData.estado === "ACTIVO") ? 1 : 0
             let params = [
                 userData.correo,
@@ -334,6 +331,9 @@ const signin = (params) => {
                 userData.id
             ]
             let client = await checkUserInfo(params)
+
+            let userId = [userData.id]
+            let data = await getAppUserId(userId)
 
             resolve({
                 response: {
