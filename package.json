@@ -20,6 +20,7 @@
     "livereload": "^0.9.3",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
+    "pm2": "^5.3.0",
     "request": "^2.88.2"
   },
   "devDependencies": {
