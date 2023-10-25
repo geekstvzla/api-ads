@@ -194,7 +194,7 @@ const clientBalance = (params) => {
         let queryString = `SELECT cb.currency_id, cb.currency_name, cb.currency_abb, cb.currency_symbol, cb.amount
                            FROM vw_client_balance cb 
                            WHERE cb.client_id = ? 
-                           AND cb.currency_id = (SELECT s.value FROM conexpro.settings s WHERE s.name = "default-currency");`
+                           AND cb.currency_id = (SELECT s.value FROM settings s WHERE s.name = "default-currency");`
         db.query(queryString, params, async function(err, result) {
 
             if(err) {
