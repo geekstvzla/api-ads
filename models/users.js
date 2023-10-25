@@ -187,6 +187,56 @@ const clientDetails = (params) => {
 
 }
 
+const clientBalance = (params) => {
+
+    return new Promise(function(resolve, reject) { 
+
+        let queryString = `SELECT cb.currency_id, cb.currency_name, cb.currency_abb, cb.currency_symbol, cb.amount
+                           FROM vw_client_balance cb 
+                           WHERE cb.client_id = ? 
+                           AND cb.currency_id = (SELECT s.value FROM conexpro.settings s WHERE s.name = "default-currency");`
+        db.query(queryString, params, async function(err, result) {
+
+            if(err) {
+    
+                reject({
+                    response: {
+                        message: "Error al tratar de ejecutar la consulta",
+                        status: "error",
+                        statusCode: 0
+                    }
+                })
+    
+            } else {
+                
+                if(result[0]) {
+
+                    resolve(result[0])
+
+                } else {
+
+                    resolve({
+                        currency_id: null,
+                        currency_name: null,
+                        currency_abb: null,
+                        currency_symbol: null,
+                        amount: 0
+                    })
+
+                }
+    
+            }
+    
+        })
+
+    }).catch(function(error) {
+
+        return(error)
+      
+    })
+
+}
+
 const clientStatus = (params) => {
 
     return new Promise(async function(resolve, reject) { 
@@ -374,6 +424,7 @@ const signin = (params) => {
 module.exports = {
     activateClient,
     checkUserInfo,
+    clientBalance,
     clientDetails,
     clientExist,
     clientStatus,
