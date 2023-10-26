@@ -237,6 +237,52 @@ const clientBalance = (params) => {
 
 }
 
+const clientDeviceToken = (params) => {
+
+    return new Promise(function(resolve, reject) { 
+
+        let queryString = `CALL sp_client_device_token(?,?,@response);`
+        db.query(queryString, params, function(err, result) {
+
+            if(err) {
+    
+                reject({
+                    error: err,
+                    response: "error"
+                })
+    
+            } else {
+                
+                db.query('SELECT @response as response', async (err2, result2) => {
+
+                    if(err2) {
+                        
+                        reject({
+                            error: err,
+                            response: "Error fetching data from the database"
+                        })
+            
+                    } else {
+                        
+                        let outputParam = JSON.parse(result2[0].response)
+                        resolve(outputParam)
+                        
+                    }   
+
+                })
+    
+            }
+    
+        })
+
+    }).catch(function(error) {
+
+        return(error)
+      
+    })
+
+}
+
 const clientStatus = (params) => {
 
     return new Promise(async function(resolve, reject) { 
@@ -312,7 +358,6 @@ const getAppUserId = (params) => {
         return(error)
       
     })
-
 
 }
 
@@ -426,6 +471,7 @@ module.exports = {
     checkUserInfo,
     clientBalance,
     clientDetails,
+    clientDeviceToken,
     clientExist,
     clientStatus,
     recoverPassword,

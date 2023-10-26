@@ -30,4 +30,15 @@ router.post('/clientStatus', async function(req, res, next) {
 
 })
 
+router.post('/clientDeviceToken', async function(req, res, next) {
+
+    let token = req.query.token
+    let userId = req.query.userId
+    let params = [userId, token]
+    let data = await usersModel.clientDeviceToken(params)
+
+    res.send(data)
+
+})
+
 module.exports = router;
