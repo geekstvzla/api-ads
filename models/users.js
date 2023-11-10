@@ -1,79 +1,11 @@
 let db = require('../config/database.js')
 mikrowispModel = require('./mikrowisp.js')
 
-const activateClient = (userId) => {
-
-    return new Promise(async function(resolve, reject) { 
-        
-       
-        var dataClient = await clientDetails(userId)
-
-        if(dataClient.hasOwnProperty('client_id')) {
-
-            let apiParams = {idcliente: dataClient.mikrowisp_id}
-            let apiReq = await mikrowispModel.apiRequest('post', 'ActiveService', apiParams)
-
-            if(apiReq.hasOwnProperty('estado')) {
-
-                if(apiReq.estado === "error") {
-
-                    resolve({
-                        response: {
-                            message: "El cliente ya se encuentra en estatus ACTIVO",
-                            status: "success",
-                            statusCode: 1
-                        }
-                    })
-
-                } else {
-
-                    resolve({
-                        response: {
-                            message: "Cliente activado exitosamente!",
-                            status: "success",
-                            statusCode: 1
-                        }
-                    })
-
-                }
-
-            } else {
-
-                resolve({
-                    response: {
-                        message: "Error al tratar de consultar al cliente en Mikrowisp",
-                        status: "error",
-                        statusCode: 0
-                    }
-                })
-
-            }
-
-        } else {
-
-            resolve({
-                response: {
-                    message: "Error al tratar de consultar al cliente en la Base de Datos",
-                    status: "error",
-                    statusCode: 0
-                }
-            })
-
-        }
-
-    }).catch(function(error) {
-
-        return(error)
-      
-    })
-
-}
-
-const checkUserInfo = (params) => {
+const activateUserAccount = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
-        let queryString = `CALL sp_check_client_info(?,?,?,@response);`
+        let queryString = `CALL sp_activate_account_user(?,@response);`
         db.query(queryString, params, function(err, result) {
 
             if(err) {
@@ -118,7 +50,7 @@ const checkUserInfo = (params) => {
         return(error)
       
     })
-    
+
 }
 
 const clientExist = (params) => {
@@ -406,71 +338,63 @@ const recoverPassword = (userEmail) => {
 }
 
 const signin = (params) => {
+
+    return new Promise(function(resolve, reject) { 
+
+        let queryString = `CALL sp_sign_in(?,?,?,@response);`
+        db.query(queryString, params, function(err, result) {
+
+            if(err) {
     
-    return new Promise(async function(resolve, reject) { 
-
-        let apiParams = {
-            codigo: params.userPass, correo: params.userEmail
-        }
+                reject({
+                    response: {
+                        message: "Error al tratar de ejecutar la consulta",
+                        status: "error",
+                        statusCode: 0,
+                        error: err
+                    }
+                })
     
-        let apiReq = await mikrowispModel.apiRequest('post', 'GetClientsDetails', apiParams)
- 
-        if(apiReq.hasOwnProperty('datos')) {
+            } else {
 
-            let userData = apiReq.datos[0]
+                db.query('SELECT @response as response', (err2, result2) => {
 
-            let userStatusCode = (userData.estado === "ACTIVO") ? 1 : 0
-            let params = [
-                userData.correo,
-                userData.nombre,
-                userData.id
-            ]
-            let client = await checkUserInfo(params)
+                    if(err2) {
+    
+                        reject({
+                            response: {
+                                message: "Error al tratar de ejecutar la consulta",
+                                status: "error",
+                                statusCode: 0
+                            }
+                        })
+            
+                    } else {
+                    
+                        let outputParam = JSON.parse(result2[0].response);
+                        resolve(outputParam)
+                        
+                    }   
 
-            let userId = [userData.id]
-            let data = await getAppUserId(userId)
-
-            resolve({
-                response: {
-                    data: {
-                        id: data.client_id,
-                        email: userData.correo,
-                        dateSuspended: userData.fecha_suspendido,
-                        name: userData.nombre,
-                        status: userData.estado,
-                        statusCode: userStatusCode
-                    },
-                    message: "Autenticación exitosa!",
-                    status: "success",
-                    statusCode: 1
-                }
-            })
-
-        } else {
-   
-            resolve({
-                response: {
-                    message: "Usuario o contraseña incorrecta",
-                    status: "error",
-                    statusCode: 0
-                }
-            })
-
-        }
+                })
+    
+            }
+    
+        })
 
     }).catch(function(error) {
 
         return(error)
       
     })
-
+    
 }
 
 const signup = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
-        let queryString = `CALL sp_new_user(?,?,?,?,?,@response);`
+        let queryString = `CALL sp_sign_up(?,?,?,?,?,?,@response);`
         db.query(queryString, params, function(err, result) {
 
             if(err) {
@@ -519,8 +443,7 @@ const signup = (params) => {
 }
 
 module.exports = {
-    activateClient,
-    checkUserInfo,
+    activateUserAccount,
     clientBalance,
     clientDetails,
     clientDeviceToken,

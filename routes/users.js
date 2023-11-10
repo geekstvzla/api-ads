@@ -2,9 +2,11 @@ var express = require('express')
 var router = express.Router()
 var usersModel = require('../models/users.js')
 
-router.post('/activateClient', async function(req, res, next) {
+router.post('/activateUserAccount', async function(req, res, next) {
 
-    let data = await usersModel.activateClient(req.query.userId)
+    let userId = req.query.userId
+    let params = [userId]
+    let data = await usersModel.activateUserAccount(params)
 
     res.send(data)
 
@@ -41,6 +43,18 @@ router.post('/clientDeviceToken', async function(req, res, next) {
 
 })
 
+router.post('/signin', async function(req, res, next) {
+
+    let email = req.query.email
+    let password = req.query.password
+    let deviceToken = req.query.token
+    let params = [email, password, deviceToken]
+    let data = await usersModel.signin(params)
+
+    res.send(data)
+
+})
+
 router.post('/signup', async function(req, res, next) {
 
     let birthday = req.query.birthday
@@ -48,7 +62,8 @@ router.post('/signup', async function(req, res, next) {
     let genderId = req.query.genderId
     let name = req.query.name
     let password = req.query.password
-    let params = [name, email, password, genderId, birthday]
+    let deviceToken = req.query.token
+    let params = [name, email, password, genderId, birthday, deviceToken]
     let data = await usersModel.signup(params)
 
     res.send(data)
