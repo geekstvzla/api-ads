@@ -41,4 +41,18 @@ router.post('/clientDeviceToken', async function(req, res, next) {
 
 })
 
+router.post('/signup', async function(req, res, next) {
+
+    let birthday = req.query.birthday
+    let email = req.query.email
+    let genderId = req.query.genderId
+    let name = req.query.name
+    let password = req.query.password
+    let params = [name, email, password, genderId, birthday]
+    let data = await usersModel.signup(params)
+
+    res.send(data)
+
+})
+
 module.exports = router;
