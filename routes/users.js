@@ -43,7 +43,17 @@ router.post('/clientDeviceToken', async function(req, res, next) {
 
 })
 
-router.post('/signin', async function(req, res, next) {
+router.post('/recover-password', async function(req, res, next) {
+
+    let email = req.query.email
+    let params = [email]
+    let data = await usersModel.recoverPassword(params)
+
+    res.send(data)
+
+})
+
+router.post('/sign-in', async function(req, res, next) {
 
     let email = req.query.email
     let password = req.query.password
@@ -55,7 +65,7 @@ router.post('/signin', async function(req, res, next) {
 
 })
 
-router.post('/signup', async function(req, res, next) {
+router.post('/sign-up', async function(req, res, next) {
 
     let birthday = req.query.birthday
     let email = req.query.email

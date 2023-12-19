@@ -53,39 +53,6 @@ const activateUserAccount = (params) => {
 
 }
 
-const clientExist = (params) => {
-
-    return new Promise(function(resolve, reject) { 
-
-        let queryString = `SELECT * FROM vw_clients c WHERE c.client_id = ?;`
-        db.query(queryString, params, function(err, result) {
-
-            if(err) {
-    
-                reject({
-                    response: {
-                        message: "Error al tratar de ejecutar la consulta",
-                        status: "error",
-                        statusCode: 0
-                    }
-                })
-    
-            } else {
-
-                resolve((result.length > 0) ? true : false)
-    
-            }
-    
-        })
-
-    }).catch(function(error) {
-
-        return(error)
-      
-    })
-
-}
-
 const clientDetails = (params) => {
 
     return new Promise(function(resolve, reject) { 
@@ -293,41 +260,50 @@ const getAppUserId = (params) => {
 
 }
 
-const recoverPassword = (userEmail) => {
+const recoverPassword = (params) => {
 
-    return new Promise(async function(resolve, reject) { 
+    return new Promise(function(resolve, reject) { 
 
-        let apiParams = {correo: userEmail}
-        let apiReq = await mikrowispModel.apiRequest('post', 'GetClientsDetails', apiParams)
+        let queryString = `CALL sp_recover_password(?,@response);`
+        db.query(queryString, params, function(err, result) {
 
-        if(apiReq.hasOwnProperty('datos')) {
+            if(err) {
+    
+                reject({
+                    response: {
+                        message: "Error al tratar de ejecutar la consulta",
+                        status: "error",
+                        statusCode: 0,
+                        error: err
+                    }
+                })
+    
+            } else {
 
-            let userData = apiReq.datos[0]
+                db.query('SELECT @response as response', (err2, result2) => {
+
+                    if(err2) {
     
-            resolve({
-                response: {
-                    data: {
-                        id: userData.id,
-                        name: userData.nombre,
-                        password: userData.codigo
-                    },
-                    message: "Datos enviados a tu correo electrónico!",
-                    status: "success",
-                    statusCode: 1
-                }
-            })
+                        reject({
+                            response: {
+                                message: "Error al tratar de ejecutar la consulta",
+                                status: "error",
+                                statusCode: 0
+                            }
+                        })
+            
+                    } else {
+                    
+                        let outputParam = JSON.parse(result2[0].response);
+                        resolve(outputParam)
+                        
+                    }   
+
+                })
     
-        } else {
+            }
     
-            resolve({
-                response: {
-                    message: "No se encontró ningun usuario con ese correo electrónico",
-                    status: "error",
-                    statusCode: 0,
-                }
-            })
-    
-        }
+        })
 
     }).catch(function(error) {
 
@@ -442,14 +418,48 @@ const signup = (params) => {
     
 }
 
+const userExist = (params) => {
+
+    return new Promise(function(resolve, reject) { 
+
+        let queryString = `SELECT * FROM vw_users u WHERE c.user_id = ?;`
+        db.query(queryString, params, function(err, result) {
+
+            if(err) {
+    
+                reject({
+                    response: {
+                        message: "Error al tratar de ejecutar la consulta",
+                        status: "error",
+                        statusCode: 0
+                    }
+                })
+    
+            } else {
+
+                resolve((result.length > 0) ? true : false)
+    
+            }
+    
+        })
+
+    }).catch(function(error) {
+
+        return(error)
+      
+    })
+
+}
+
+
 module.exports = {
     activateUserAccount,
     clientBalance,
     clientDetails,
     clientDeviceToken,
-    clientExist,
     clientStatus,
     recoverPassword,
     signin,
-    signup
+    signup,
+    userExist
 }
