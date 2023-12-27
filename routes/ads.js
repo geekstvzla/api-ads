@@ -4,7 +4,7 @@ var adsModel = require('../models/ads.js')
 var usersModel = require('../models/users.js')
 
 /* Ver Publicidad */
-router.get('/seeAds/', async function(req, res, next) {
+router.get('/see-ads/', async function(req, res, next) {
 
     let host = req.hostname
     let userId = req.query.userId
@@ -31,7 +31,7 @@ router.get('/seeAds/', async function(req, res, next) {
 })
 
 /* Vio publicidad */
-router.post('/viewedAd/', async function(req, res, next) {
+router.post('/viewed-ad/', async function(req, res, next) {
 
     let userId = req.query.userId
     let adId = req.query.adId
