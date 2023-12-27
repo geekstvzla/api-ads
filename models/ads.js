@@ -136,17 +136,7 @@ const viewedAd = (params) => {
                     } else {
                         
                         let outputParam = JSON.parse(result2[0].response)
-
-                        if(outputParam.response.status_code === 1) {
-
-                            let activate =  await usersModel.activateClient(params[0])
-                            resolve(activate)
-                    
-                        } else {
-                           
-                            resolve(outputParam)
-                    
-                        }
+                        resolve(outputParam)
                         
                     }   
 
