@@ -53,11 +53,11 @@ const activateUserAccount = (params) => {
 
 }
 
-const clientDetails = (params) => {
+const userDetails = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
-        let queryString = `SELECT * FROM vw_clients c WHERE c.client_id = ?;`
+        let queryString = `SELECT * FROM vw_users u WHERE u.user_id = ?;`
         db.query(queryString, params, async function(err, result) {
 
             if(err) {
@@ -86,7 +86,7 @@ const clientDetails = (params) => {
 
 }
 
-const clientBalance = (params) => {
+const userBalance = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
@@ -136,11 +136,11 @@ const clientBalance = (params) => {
 
 }
 
-const clientDeviceToken = (params) => {
+const userDeviceToken = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
-        let queryString = `CALL sp_client_device_token(?,?,@response);`
+        let queryString = `CALL sp_user_device_token(?,?,@response);`
         db.query(queryString, params, function(err, result) {
 
             if(err) {
@@ -182,74 +182,21 @@ const clientDeviceToken = (params) => {
 
 }
 
-const clientStatus = (params) => {
+const userStatus = (params) => {
 
     return new Promise(async function(resolve, reject) { 
 
-        let data = await clientDetails(params)
-        let apiParams = {correo: data.client_email}
-        let apiReq = await mikrowispModel.apiRequest('post', 'GetClientsDetails', apiParams)
-       
-        if(apiReq.hasOwnProperty('datos')) {
-
-            let clientData = apiReq.datos[0]
-            let clientStatusCode = (clientData.estado === "ACTIVO") ? 1 : 0
-
-            resolve({
-                response: {
-                    data: {
-                        "status": clientData.estado,
-                        "statusCode": clientStatusCode
-                    },
-                    message: "Estatus del cliente",
-                    status: "success",
-                    statusCode: 1
-                }
-            })
-
-        } else {
-
-            resolve({
-                response: {
-                    message: apiReq.mensaje,
-                    status: "error",
-                    statusCode: 0
-                }
-            })
-
-        }
-
-    }).catch(function(error) {
-
-        return(error)
-      
-    })
-
-}
-
-const getAppUserId = (params) => {
-
-    return new Promise(function(resolve, reject) { 
-
-        let queryString = `SELECT c.client_id FROM vw_clients c WHERE c.mikrowisp_id = ?;`
-        db.query(queryString, params, async function(err, result) {
-
-            if(err) {
-    
-                reject({
-                    response: {
-                        message: "Error al tratar de ejecutar la consulta",
-                        status: "error",
-                        statusCode: 0
-                    }
-                })
-    
-            } else {
-                
-                resolve(result[0])
-    
+        let data = await userDetails(params)
+        resolve({
+            response: {
+                data: {
+                    "status": data.status_desc,
+                    "statusCode": data.status_id
+                },
+                message: "Estatus del cliente",
+                status: "success",
+                statusCode: 1
             }
-    
         })
 
     }).catch(function(error) {
@@ -454,10 +401,10 @@ const userExist = (params) => {
 
 module.exports = {
     activateUserAccount,
-    clientBalance,
-    clientDetails,
-    clientDeviceToken,
-    clientStatus,
+    userBalance,
+    userDetails,
+    userDeviceToken,
+    userStatus,
     recoverPassword,
     signin,
     signup,

@@ -12,32 +12,32 @@ router.post('/activateUserAccount', async function(req, res, next) {
 
 })
 
-router.post('/clientBalance', async function(req, res, next) {
+router.post('/user-balance', async function(req, res, next) {
 
     let userId = req.query.userId
     let params = [userId]
-    let data = await usersModel.clientBalance(params)
+    let data = await usersModel.userBalance(params)
 
     res.send(data)
 
 })
 
-router.post('/client-status', async function(req, res, next) {
+router.post('/user-status', async function(req, res, next) {
 
     let userId = req.query.userId
     let params = [userId]
-    let data = await usersModel.clientStatus(params)
+    let data = await usersModel.userStatus(params)
 
     res.send(data)
 
 })
 
-router.post('/clientDeviceToken', async function(req, res, next) {
+router.post('/user-device-token', async function(req, res, next) {
 
     let token = req.query.token
     let userId = req.query.userId
     let params = [userId, token]
-    let data = await usersModel.clientDeviceToken(params)
+    let data = await usersModel.userDeviceToken(params)
 
     res.send(data)
 
