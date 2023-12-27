@@ -90,10 +90,10 @@ const clientBalance = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
-        let queryString = `SELECT cb.currency_id, cb.currency_name, cb.currency_abb, cb.currency_symbol, cb.amount
-                           FROM vw_client_balance cb 
-                           WHERE cb.client_id = ? 
-                           AND cb.currency_id = (SELECT s.value FROM settings s WHERE s.name = "default-currency");`
+        let queryString = `SELECT ub.currency_id, ub.currency_name, ub.currency_abb, ub.currency_symbol, ub.amount
+                           FROM vw_user_balance ub 
+                           WHERE ub.user_id = ? 
+                           AND ub.currency_id = (SELECT s.value FROM settings s WHERE s.name = "default-currency");`
         db.query(queryString, params, async function(err, result) {
 
             if(err) {

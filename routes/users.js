@@ -22,7 +22,7 @@ router.post('/clientBalance', async function(req, res, next) {
 
 })
 
-router.post('/clientStatus', async function(req, res, next) {
+router.post('/client-status', async function(req, res, next) {
 
     let userId = req.query.userId
     let params = [userId]
