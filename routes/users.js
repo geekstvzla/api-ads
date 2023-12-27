@@ -2,7 +2,7 @@ var express = require('express')
 var router = express.Router()
 var usersModel = require('../models/users.js')
 
-router.post('/activateUserAccount', async function(req, res, next) {
+router.post('/activate-user-account', async function(req, res, next) {
 
     let userId = req.query.userId
     let params = [userId]

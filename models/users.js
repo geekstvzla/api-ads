@@ -193,7 +193,7 @@ const userStatus = (params) => {
                     "status": data.status_desc,
                     "statusCode": data.status_id
                 },
-                message: "Estatus del cliente",
+                message: "Estatus del usuario",
                 status: "success",
                 statusCode: 1
             }
