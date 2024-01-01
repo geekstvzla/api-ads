@@ -64,9 +64,12 @@ router.post('/sign-in', async function(req, res, next) {
 
     if(data.status === "warning-1")
     {
+        
+        let url = req.protocol+req.get('host')+"/users/activate-user-account?userId="+data.userId
 
-        emailParams = {email: email, userId: data.userId}
-        mail.activateUserAccount(emailParams)
+        console.log(url)
+        emailParams = {email: email, url: url}
+        //mail.activateUserAccount(emailParams)
 
     }
 
