@@ -1,5 +1,4 @@
 let db = require('../config/database.js')
-mikrowispModel = require('./mikrowisp.js')
 
 const activateUserAccount = (params) => {
 
@@ -260,7 +259,7 @@ const recoverPassword = (params) => {
 
 }
 
-const signin = (params) => {
+const signIn = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
@@ -313,7 +312,7 @@ const signin = (params) => {
     
 }
 
-const signup = (params) => {
+const signUp = (params) => {
 
     return new Promise(function(resolve, reject) { 
 
@@ -406,7 +405,7 @@ module.exports = {
     userDeviceToken,
     userStatus,
     recoverPassword,
-    signin,
-    signup,
+    signIn,
+    signUp,
     userExist
 }

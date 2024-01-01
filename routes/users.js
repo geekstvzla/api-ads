@@ -1,5 +1,6 @@
 var express = require('express')
 var router = express.Router()
+var mail = require('../models/emails.js')
 var usersModel = require('../models/users.js')
 
 router.post('/activate-user-account', async function(req, res, next) {
@@ -59,7 +60,15 @@ router.post('/sign-in', async function(req, res, next) {
     let password = req.query.password
     let deviceToken = req.query.token
     let params = [email, password, deviceToken]
-    let data = await usersModel.signin(params)
+    let data = await usersModel.signIn(params)
+
+    if(data.status === "warning-1")
+    {
+
+        emailParams = {email: email, userId: data.userId}
+        mail.activateUserAccount(emailParams)
+
+    }
 
     res.send(data)
 
@@ -74,7 +83,7 @@ router.post('/sign-up', async function(req, res, next) {
     let password = req.query.password
     let deviceToken = req.query.token
     let params = [name, email, password, genderId, birthday, deviceToken]
-    let data = await usersModel.signup(params)
+    let data = await usersModel.signUp(params)
 
     res.send(data)
 
