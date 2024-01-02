@@ -34,7 +34,7 @@ const genders = () => {
     {
 
         console.log(error)
-        reject(error)
+        return error
       
     })
 

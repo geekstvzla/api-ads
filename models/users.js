@@ -57,7 +57,7 @@ const activateUserAccount = (params) =>
     }).catch(function(error) 
     {
 
-        reject(error)
+        return error
       
     })
 
@@ -96,7 +96,7 @@ const userDetails = (params) =>
     }).catch(function(error) 
     {
 
-        reject(error)
+        return error
       
     })
 
@@ -158,7 +158,7 @@ const userBalance = (params) =>
     }).catch(function(error) 
     {
 
-        resolve(error)
+        return error
       
     })
 
@@ -215,7 +215,7 @@ const userDeviceToken = (params) =>
     }).catch(function(error) 
     {
 
-        reject(error)
+        return error
       
     })
 
@@ -243,7 +243,7 @@ const userStatus = (params) =>
     }).catch(function(error) 
     {
 
-        reject(error)
+        return error
       
     })
 
@@ -307,7 +307,7 @@ const recoverPassword = (params) =>
     }).catch(function(error) 
     {
 
-        reject(error)
+        return error
       
     })
 
@@ -371,7 +371,7 @@ const signIn = (params) =>
     }).catch(function(error) 
     {
 
-        reject(error)
+        return error
       
     })
     
@@ -434,7 +434,7 @@ const signUp = (params) =>
     }).catch(function(error) 
     {
 
-        reject(error)
+        return error
       
     })
     
@@ -473,7 +473,7 @@ const userExist = (params) =>
     }).catch(function(error) 
     {
 
-        reject(error)
+        return error
       
     })
 
