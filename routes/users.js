@@ -100,7 +100,7 @@ router.post('/sign-up', async function(req, res, next)
     let deviceToken = req.query.token
     let params = [name, email, password, genderId, birthday, deviceToken]
     let data = await usersModel.signUp(params)
-    
+    console.log(data)
     if(data.response.statusCode === 1)
     {
     
