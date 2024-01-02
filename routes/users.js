@@ -3,7 +3,8 @@ var router = express.Router()
 var mail = require('../models/emails.js')
 var usersModel = require('../models/users.js')
 
-router.get('/activate-user-account', async function(req, res, next) {
+router.get('/activate-user-account', async function(req, res, next) 
+{
 
     let userId = req.query.userId
     let params = [userId]
@@ -13,7 +14,8 @@ router.get('/activate-user-account', async function(req, res, next) {
 
 })
 
-router.post('/user-balance', async function(req, res, next) {
+router.post('/user-balance', async function(req, res, next) 
+{
 
     let userId = req.query.userId
     let params = [userId]
@@ -23,7 +25,8 @@ router.post('/user-balance', async function(req, res, next) {
 
 })
 
-router.post('/user-status', async function(req, res, next) {
+router.post('/user-status', async function(req, res, next) 
+{
 
     let userId = req.query.userId
     let params = [userId]
@@ -33,7 +36,8 @@ router.post('/user-status', async function(req, res, next) {
 
 })
 
-router.post('/user-device-token', async function(req, res, next) {
+router.post('/user-device-token', async function(req, res, next) 
+{
 
     let token = req.query.token
     let userId = req.query.userId
@@ -44,7 +48,8 @@ router.post('/user-device-token', async function(req, res, next) {
 
 })
 
-router.post('/recover-password', async function(req, res, next) {
+router.post('/recover-password', async function(req, res, next) 
+{
 
     let email = req.query.email
     let params = [email]
@@ -54,7 +59,8 @@ router.post('/recover-password', async function(req, res, next) {
 
 })
 
-router.post('/sign-in', async function(req, res, next) {
+router.post('/sign-in', async function(req, res, next) 
+{
 
     let email = req.query.email
     let password = req.query.password
@@ -62,7 +68,7 @@ router.post('/sign-in', async function(req, res, next) {
     let params = [email, password, deviceToken]
     let data = await usersModel.signIn(params)
 
-    if(data.status === "warning-1")
+    if(data.statusCode === 3)
     {
         
         let url = req.protocol+"://"+req.get('host')+"/users/activate-user-account?userId="+data.userId
@@ -75,7 +81,8 @@ router.post('/sign-in', async function(req, res, next) {
 
 })
 
-router.post('/sign-up', async function(req, res, next) {
+router.post('/sign-up', async function(req, res, next) 
+{
 
     let birthday = req.query.birthday
     let email = req.query.email
@@ -85,6 +92,15 @@ router.post('/sign-up', async function(req, res, next) {
     let deviceToken = req.query.token
     let params = [name, email, password, genderId, birthday, deviceToken]
     let data = await usersModel.signUp(params)
+
+    if(data.statusCode === 3)
+    {
+        
+        let url = req.protocol+"://"+req.get('host')+"/users/activate-user-account?userId="+data.userId
+        emailParams = {email: email, url: url}
+        mail.activateUserAccount(emailParams)
+
+    }
 
     res.send(data)
 
