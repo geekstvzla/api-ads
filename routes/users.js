@@ -8,7 +8,7 @@ router.get('/activate-user-account', async function(req, res, next) {
     let userId = req.query.userId
     let params = [userId]
     let data = await usersModel.activateUserAccount(params)
-    console.log(data)
+    
     res.render('users/activateUserAccount', {message: data.message});
 
 })
