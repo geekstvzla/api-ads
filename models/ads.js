@@ -115,7 +115,7 @@ const adsToSee = (params) =>
 
         console.log("ERROR adsToSee")
         console.log(error)
-        return(error)
+        reject(error)
       
     })
 
@@ -174,7 +174,7 @@ const viewedAd = (params) =>
 
         console.log("ERROR viewedAd")
         console.log(error)
-        return(error)
+        reject(error)
       
     })
 

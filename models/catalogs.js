@@ -24,7 +24,7 @@ const genders = () => {
             else 
             {
                 
-                resolve(result)
+                resolve({resonse: result})
     
             }
     
@@ -34,7 +34,7 @@ const genders = () => {
     {
 
         console.log(error)
-        return(error)
+        reject(error)
       
     })
 

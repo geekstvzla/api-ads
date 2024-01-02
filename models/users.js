@@ -57,7 +57,7 @@ const activateUserAccount = (params) =>
     }).catch(function(error) 
     {
 
-        return(error)
+        reject(error)
       
     })
 
@@ -96,7 +96,7 @@ const userDetails = (params) =>
     }).catch(function(error) 
     {
 
-        return(error)
+        reject(error)
       
     })
 
@@ -133,18 +133,20 @@ const userBalance = (params) =>
                 if(result[0]) 
                 {
 
-                    resolve(result[0])
+                    resolve({response: result[0]})
 
                 } 
                 else 
                 {
 
                     resolve({
-                        currency_id: null,
-                        currency_name: null,
-                        currency_abb: null,
-                        currency_symbol: null,
-                        amount: 0
+                        response: {
+                            currency_id: null,
+                            currency_name: null,
+                            currency_abb: null,
+                            currency_symbol: null,
+                            amount: 0
+                        }
                     })
 
                 }
@@ -156,7 +158,7 @@ const userBalance = (params) =>
     }).catch(function(error) 
     {
 
-        return(error)
+        resolve(error)
       
     })
 
@@ -213,7 +215,7 @@ const userDeviceToken = (params) =>
     }).catch(function(error) 
     {
 
-        return(error)
+        reject(error)
       
     })
 
@@ -241,7 +243,7 @@ const userStatus = (params) =>
     }).catch(function(error) 
     {
 
-        return(error)
+        reject(error)
       
     })
 
@@ -305,7 +307,7 @@ const recoverPassword = (params) =>
     }).catch(function(error) 
     {
 
-        return(error)
+        reject(error)
       
     })
 
@@ -369,7 +371,7 @@ const signIn = (params) =>
     }).catch(function(error) 
     {
 
-        return(error)
+        reject(error)
       
     })
     
@@ -432,7 +434,7 @@ const signUp = (params) =>
     }).catch(function(error) 
     {
 
-        return(error)
+        reject(error)
       
     })
     
@@ -471,7 +473,7 @@ const userExist = (params) =>
     }).catch(function(error) 
     {
 
-        return(error)
+        reject(error)
       
     })
 

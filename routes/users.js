@@ -10,7 +10,7 @@ router.get('/activate-user-account', async function(req, res, next)
     let params = [userId]
     let data = await usersModel.activateUserAccount(params)
     
-    res.render('users/activateUserAccount', {message: data.message});
+    res.render('users/activateUserAccount', {message: data.response.message});
 
 })
 
@@ -68,10 +68,10 @@ router.post('/sign-in', async function(req, res, next)
     let params = [email, password, deviceToken]
     let data = await usersModel.signIn(params)
     
-    if(data.statusCode === 3)
+    if(data.response.statusCode === 3)
     {
        
-        let url = req.protocol+"://"+req.get('host')+"/users/activate-user-account?userId="+data.userId
+        let url = req.protocol+"://"+req.get('host')+"/users/activate-user-account?userId="+data.response.userId
         emailParams = {email: email, url: url}
         mail.activateUserAccount(emailParams)
 
@@ -93,10 +93,10 @@ router.post('/sign-up', async function(req, res, next)
     let params = [name, email, password, genderId, birthday, deviceToken]
     let data = await usersModel.signUp(params)
     
-    if(data.statusCode === 1)
+    if(data.response.statusCode === 1)
     {
     
-        let url = req.protocol+"://"+req.get('host')+"/users/activate-user-account?userId="+data.userId
+        let url = req.protocol+"://"+req.get('host')+"/users/activate-user-account?userId="+data.response.userId
         emailParams = {email: email, url: url}
         mail.activateUserAccount(emailParams)
 
