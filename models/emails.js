@@ -19,6 +19,26 @@ const activateUserAccount = async (params) =>
 
 }
 
+const recoverUserPassword = async (params) => 
+{
+
+    await transporter.sendMail(
+    {    
+
+        from: '"CONEXPRO" <contacto@conexproenlinea.com>',
+        to: params.email,
+        subject: "🔓 Aquí tienes tu contraseña!",
+        html: `
+              <h2>¡Aquí tienes tu contraseña!</h2>
+              <p>Porque solicitastes recuperar tu contraseña te ha llegado este correo.</p>
+              <p class="password" style="color:#091F40; font-size: 35px; font-weight: bold; margin-top: 10px;">`+params.password+`</p>
+              `
+
+    });
+
+}
+
 module.exports = {
-    activateUserAccount
+    activateUserAccount,
+    recoverUserPassword
 }
