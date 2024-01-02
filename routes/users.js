@@ -3,13 +3,13 @@ var router = express.Router()
 var mail = require('../models/emails.js')
 var usersModel = require('../models/users.js')
 
-router.post('/activate-user-account', async function(req, res, next) {
+router.get('/activate-user-account', async function(req, res, next) {
 
     let userId = req.query.userId
     let params = [userId]
     let data = await usersModel.activateUserAccount(params)
-
-    res.send(data)
+    console.log(data)
+    res.render('users/activateUserAccount', {message: data.message});
 
 })
 
@@ -65,11 +65,9 @@ router.post('/sign-in', async function(req, res, next) {
     if(data.status === "warning-1")
     {
         
-        let url = req.protocol+req.get('host')+"/users/activate-user-account?userId="+data.userId
-
-        console.log(url)
+        let url = req.protocol+"://"+req.get('host')+"/users/activate-user-account?userId="+data.userId
         emailParams = {email: email, url: url}
-        //mail.activateUserAccount(emailParams)
+        mail.activateUserAccount(emailParams)
 
     }
 
