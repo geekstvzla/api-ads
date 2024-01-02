@@ -4,19 +4,23 @@ var adsModel = require('../models/ads.js')
 var usersModel = require('../models/users.js')
 
 /* Ver Publicidad */
-router.get('/see-ads/', async function(req, res, next) {
+router.get('/see-ads/', async function(req, res, next) 
+{
 
     let host = req.hostname
     let userId = req.query.userId
     let params = [userId, host]
     let client = await usersModel.userExist(params)
 
-    if(client) {
+    if(client) 
+    {
 
         let ads = await adsModel.adsToSee(params)
         res.send(ads)
 
-    } else {
+    } 
+    else 
+    {
 
         res.send({
             response: {
@@ -31,7 +35,8 @@ router.get('/see-ads/', async function(req, res, next) {
 })
 
 /* Vio publicidad */
-router.post('/viewed-ad/', async function(req, res, next) {
+router.post('/viewed-ad/', async function(req, res, next) 
+{
 
     let userId = req.query.userId
     let adId = req.query.adId

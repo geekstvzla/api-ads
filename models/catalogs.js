@@ -2,12 +2,15 @@ let db = require('../config/database.js')
 
 const genders = () => {
 
-    return new Promise(function(resolve, reject) { 
+    return new Promise(function(resolve, reject) 
+    { 
 
         let queryString = `SELECT gender_id, gender_description FROM vw_genders WHERE gender_status_id = 1;`
-        db.query(queryString, async function(err, result) {
+        db.query(queryString, async function(err, result) 
+        {
 
-            if(err) {
+            if(err) 
+            {
     
                 reject({
                     response: {
@@ -17,7 +20,9 @@ const genders = () => {
                     }
                 })
     
-            } else {
+            } 
+            else 
+            {
                 
                 resolve(result)
     
@@ -25,7 +30,8 @@ const genders = () => {
     
         })
 
-    }).catch(function(error) {
+    }).catch(function(error) 
+    {
 
         console.log(error)
         return(error)

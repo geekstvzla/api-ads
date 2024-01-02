@@ -1,9 +1,10 @@
 let transporter = require('../config/mail.js')
 
-const activateUserAccount = async (params) => {
+const activateUserAccount = async (params) => 
+{
 
-    console.log(params)
-    await transporter.sendMail({    
+    await transporter.sendMail(
+    {    
 
         from: '"CONEXPRO" <contacto@conexproenlinea.com>',
         to: params.email,

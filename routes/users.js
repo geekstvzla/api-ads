@@ -92,10 +92,10 @@ router.post('/sign-up', async function(req, res, next)
     let deviceToken = req.query.token
     let params = [name, email, password, genderId, birthday, deviceToken]
     let data = await usersModel.signUp(params)
-
-    if(data.statusCode === 3)
+    
+    if(data.statusCode === 1)
     {
-        
+    
         let url = req.protocol+"://"+req.get('host')+"/users/activate-user-account?userId="+data.userId
         emailParams = {email: email, url: url}
         mail.activateUserAccount(emailParams)

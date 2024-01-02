@@ -1,9 +1,11 @@
 let db = require('../config/database.js')
 usersModel = require('./users.js')
 
-const adsToSee = (params) => {
+const adsToSee = (params) => 
+{
 
-    return new Promise(function(resolve, reject) { 
+    return new Promise(function(resolve, reject) 
+    { 
 
         let queryString = `
             SELECT a.ad_id,
@@ -21,9 +23,11 @@ const adsToSee = (params) => {
             ORDER BY a.ad_id ASC
             LIMIT 1;`
             
-        db.query(queryString, params, function(err, adsData) {
+        db.query(queryString, params, function(err, adsData) 
+        {
 
-            if(err) {
+            if(err) 
+            {
     
                 reject({
                     response: {
@@ -33,7 +37,9 @@ const adsToSee = (params) => {
                     }
                 })
     
-            } else {
+            } 
+            else 
+            {
 
                 if(adsData.length > 0) {
 
@@ -49,9 +55,11 @@ const adsToSee = (params) => {
                         WHERE a.ad_id = ?
                         AND a.ads_content_status_id = 1
                         ORDER BY a.ads_content_order ASC;`
-                    db.query(queryString, [adId], function(err, adsContent) {
+                    db.query(queryString, [adId], function(err, adsContent) 
+                    {
 
-                        if(err) {
+                        if(err) 
+                        {
 
                             reject({
                                 response: {
@@ -62,7 +70,9 @@ const adsToSee = (params) => {
                                 }
                             })
 
-                        } else {
+                        } 
+                        else 
+                        {
 
                             resolve({
                                 response: {
@@ -82,7 +92,9 @@ const adsToSee = (params) => {
 
                     })
 
-                } else {
+                } 
+                else 
+                {
 
                     resolve({
                         response: {
@@ -98,7 +110,8 @@ const adsToSee = (params) => {
     
         })
 
-    }).catch(function(error) {
+    }).catch(function(error) 
+    {
 
         console.log("ERROR adsToSee")
         console.log(error)
@@ -108,32 +121,42 @@ const adsToSee = (params) => {
 
 }
 
-const viewedAd = (params) => {
+const viewedAd = (params) => 
+{
 
-    return new Promise(function(resolve, reject) { 
+    return new Promise(function(resolve, reject) 
+    { 
 
         let queryString = `CALL sp_viewed_ad(?,?,@response);`
-        db.query(queryString, params, function(err, result) {
+        db.query(queryString, params, function(err, result) 
+        {
 
-            if(err) {
+            if(err) 
+            {
     
                 reject({
                     error: err,
                     response: "error"
                 })
     
-            } else {
+            } 
+            else 
+            {
                 
-                db.query('SELECT @response as response', async (err2, result2) => {
+                db.query('SELECT @response as response', async (err2, result2) => 
+                {
 
-                    if(err2) {
+                    if(err2) 
+                    {
                         
                         reject({
                             error: err,
                             response: "Error fetching data from the database"
                         })
             
-                    } else {
+                    } 
+                    else 
+                    {
                         
                         let outputParam = JSON.parse(result2[0].response)
                         resolve(outputParam)
@@ -146,7 +169,8 @@ const viewedAd = (params) => {
     
         })
 
-    }).catch(function(error) {
+    }).catch(function(error) 
+    {
 
         console.log("ERROR viewedAd")
         console.log(error)

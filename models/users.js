@@ -1,13 +1,17 @@
 let db = require('../config/database.js')
 
-const activateUserAccount = (params) => {
+const activateUserAccount = (params) => 
+{
 
-    return new Promise(function(resolve, reject) { 
+    return new Promise(function(resolve, reject) 
+    { 
 
         let queryString = `CALL sp_activate_account_user(?,@response);`
-        db.query(queryString, params, function(err, result) {
+        db.query(queryString, params, function(err, result) 
+        {
 
-            if(err) {
+            if(err) 
+            {
     
                 reject({
                     response: {
@@ -17,11 +21,15 @@ const activateUserAccount = (params) => {
                     }
                 })
     
-            } else {
+            } 
+            else 
+            {
 
-                db.query('SELECT @response as response', (err2, result2) => {
+                db.query('SELECT @response as response', (err2, result2) => 
+                {
 
-                    if(err2) {
+                    if(err2) 
+                    {
     
                         reject({
                             response: {
@@ -31,7 +39,9 @@ const activateUserAccount = (params) => {
                             }
                         })
             
-                    } else {
+                    } 
+                    else 
+                    {
                     
                         let outputParam = JSON.parse(result2[0].response);
                         resolve(outputParam)
@@ -44,7 +54,8 @@ const activateUserAccount = (params) => {
     
         })
 
-    }).catch(function(error) {
+    }).catch(function(error) 
+    {
 
         return(error)
       
@@ -52,14 +63,17 @@ const activateUserAccount = (params) => {
 
 }
 
-const userDetails = (params) => {
+const userDetails = (params) => 
+{
 
-    return new Promise(function(resolve, reject) { 
+    return new Promise(function(resolve, reject) 
+    { 
 
         let queryString = `SELECT * FROM vw_users u WHERE u.user_id = ?;`
         db.query(queryString, params, async function(err, result) {
 
-            if(err) {
+            if(err) 
+            {
     
                 reject({
                     response: {
@@ -69,7 +83,9 @@ const userDetails = (params) => {
                     }
                 })
     
-            } else {
+            } 
+            else 
+            {
                 
                 resolve(result[0])
     
@@ -77,7 +93,8 @@ const userDetails = (params) => {
     
         })
 
-    }).catch(function(error) {
+    }).catch(function(error) 
+    {
 
         return(error)
       
@@ -85,17 +102,21 @@ const userDetails = (params) => {
 
 }
 
-const userBalance = (params) => {
+const userBalance = (params) => 
+{
 
-    return new Promise(function(resolve, reject) { 
+    return new Promise(function(resolve, reject) 
+    { 
 
         let queryString = `SELECT ub.currency_id, ub.currency_name, ub.currency_abb, ub.currency_symbol, ub.amount
                            FROM vw_user_balance ub 
                            WHERE ub.user_id = ? 
                            AND ub.currency_id = (SELECT s.value FROM settings s WHERE s.name = "default-currency");`
-        db.query(queryString, params, async function(err, result) {
+        db.query(queryString, params, async function(err, result) 
+        {
 
-            if(err) {
+            if(err) 
+            {
     
                 reject({
                     response: {
@@ -105,13 +126,18 @@ const userBalance = (params) => {
                     }
                 })
     
-            } else {
+            } 
+            else 
+            {
                 
-                if(result[0]) {
+                if(result[0]) 
+                {
 
                     resolve(result[0])
 
-                } else {
+                } 
+                else 
+                {
 
                     resolve({
                         currency_id: null,
@@ -127,7 +153,8 @@ const userBalance = (params) => {
     
         })
 
-    }).catch(function(error) {
+    }).catch(function(error) 
+    {
 
         return(error)
       
@@ -135,32 +162,42 @@ const userBalance = (params) => {
 
 }
 
-const userDeviceToken = (params) => {
+const userDeviceToken = (params) => 
+{
 
-    return new Promise(function(resolve, reject) { 
+    return new Promise(function(resolve, reject) 
+    { 
 
         let queryString = `CALL sp_user_device_token(?,?,@response);`
-        db.query(queryString, params, function(err, result) {
+        db.query(queryString, params, function(err, result) 
+        {
 
-            if(err) {
+            if(err) 
+            {
     
                 reject({
                     error: err,
                     response: "error"
                 })
     
-            } else {
+            } 
+            else 
+            {
                 
-                db.query('SELECT @response as response', async (err2, result2) => {
+                db.query('SELECT @response as response', async (err2, result2) => 
+                {
 
-                    if(err2) {
+                    if(err2) 
+                    {
                         
                         reject({
                             error: err,
                             response: "Error fetching data from the database"
                         })
             
-                    } else {
+                    } 
+                    else 
+                    {
                         
                         let outputParam = JSON.parse(result2[0].response)
                         resolve(outputParam)
@@ -173,7 +210,8 @@ const userDeviceToken = (params) => {
     
         })
 
-    }).catch(function(error) {
+    }).catch(function(error) 
+    {
 
         return(error)
       
@@ -181,9 +219,11 @@ const userDeviceToken = (params) => {
 
 }
 
-const userStatus = (params) => {
+const userStatus = (params) => 
+{
 
-    return new Promise(async function(resolve, reject) { 
+    return new Promise(async function(resolve, reject) 
+    { 
 
         let data = await userDetails(params)
         resolve({
@@ -198,7 +238,8 @@ const userStatus = (params) => {
             }
         })
 
-    }).catch(function(error) {
+    }).catch(function(error) 
+    {
 
         return(error)
       
@@ -206,14 +247,18 @@ const userStatus = (params) => {
 
 }
 
-const recoverPassword = (params) => {
+const recoverPassword = (params) => 
+{
 
-    return new Promise(function(resolve, reject) { 
+    return new Promise(function(resolve, reject) 
+    { 
 
         let queryString = `CALL sp_recover_password(?,@response);`
-        db.query(queryString, params, function(err, result) {
+        db.query(queryString, params, function(err, result) 
+        {
 
-            if(err) {
+            if(err) 
+            {
     
                 reject({
                     response: {
@@ -224,11 +269,15 @@ const recoverPassword = (params) => {
                     }
                 })
     
-            } else {
+            } 
+            else 
+            {
 
-                db.query('SELECT @response as response', (err2, result2) => {
+                db.query('SELECT @response as response', (err2, result2) => 
+                {
 
-                    if(err2) {
+                    if(err2) 
+                    {
     
                         reject({
                             response: {
@@ -238,7 +287,9 @@ const recoverPassword = (params) => {
                             }
                         })
             
-                    } else {
+                    } 
+                    else 
+                    {
                     
                         let outputParam = JSON.parse(result2[0].response);
                         resolve(outputParam)
@@ -251,7 +302,8 @@ const recoverPassword = (params) => {
     
         })
 
-    }).catch(function(error) {
+    }).catch(function(error) 
+    {
 
         return(error)
       
@@ -259,14 +311,18 @@ const recoverPassword = (params) => {
 
 }
 
-const signIn = (params) => {
+const signIn = (params) => 
+{
 
-    return new Promise(function(resolve, reject) { 
+    return new Promise(function(resolve, reject) 
+    { 
 
         let queryString = `CALL sp_sign_in(?,?,?,@response);`
-        db.query(queryString, params, function(err, result) {
+        db.query(queryString, params, function(err, result) 
+        {
 
-            if(err) {
+            if(err) 
+            {
     
                 reject({
                     response: {
@@ -277,11 +333,15 @@ const signIn = (params) => {
                     }
                 })
     
-            } else {
+            } 
+            else 
+            {
 
-                db.query('SELECT @response as response', (err2, result2) => {
+                db.query('SELECT @response as response', (err2, result2) => 
+                {
 
-                    if(err2) {
+                    if(err2) 
+                    {
     
                         reject({
                             response: {
@@ -291,7 +351,9 @@ const signIn = (params) => {
                             }
                         })
             
-                    } else {
+                    } 
+                    else 
+                    {
                     
                         let outputParam = JSON.parse(result2[0].response);
                         resolve(outputParam)
@@ -304,7 +366,8 @@ const signIn = (params) => {
     
         })
 
-    }).catch(function(error) {
+    }).catch(function(error) 
+    {
 
         return(error)
       
@@ -312,14 +375,18 @@ const signIn = (params) => {
     
 }
 
-const signUp = (params) => {
+const signUp = (params) => 
+{
 
-    return new Promise(function(resolve, reject) { 
+    return new Promise(function(resolve, reject) 
+    { 
 
         let queryString = `CALL sp_sign_up(?,?,?,?,?,?,@response);`
-        db.query(queryString, params, function(err, result) {
+        db.query(queryString, params, function(err, result) 
+        {
 
-            if(err) {
+            if(err) 
+            {
     
                 reject({
                     response: {
@@ -329,11 +396,15 @@ const signUp = (params) => {
                     }
                 })
     
-            } else {
+            } 
+            else 
+            {
 
-                db.query('SELECT @response as response', (err2, result2) => {
+                db.query('SELECT @response as response', (err2, result2) => 
+                {
 
-                    if(err2) {
+                    if(err2) 
+                    {
     
                         reject({
                             response: {
@@ -343,7 +414,9 @@ const signUp = (params) => {
                             }
                         })
             
-                    } else {
+                    } 
+                    else 
+                    {
                     
                         let outputParam = JSON.parse(result2[0].response);
                         resolve(outputParam)
@@ -356,7 +429,8 @@ const signUp = (params) => {
     
         })
 
-    }).catch(function(error) {
+    }).catch(function(error) 
+    {
 
         return(error)
       
@@ -364,14 +438,17 @@ const signUp = (params) => {
     
 }
 
-const userExist = (params) => {
+const userExist = (params) => 
+{
 
-    return new Promise(function(resolve, reject) { 
+    return new Promise(function(resolve, reject) 
+    { 
 
         let queryString = `SELECT * FROM vw_users u WHERE c.user_id = ?;`
         db.query(queryString, params, function(err, result) {
 
-            if(err) {
+            if(err) 
+            {
     
                 reject({
                     response: {
@@ -381,7 +458,9 @@ const userExist = (params) => {
                     }
                 })
     
-            } else {
+            } 
+            else 
+            {
 
                 resolve((result.length > 0) ? true : false)
     
@@ -389,7 +468,8 @@ const userExist = (params) => {
     
         })
 
-    }).catch(function(error) {
+    }).catch(function(error) 
+    {
 
         return(error)
       
