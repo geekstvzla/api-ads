@@ -410,7 +410,7 @@ const signUp = (params) =>
     
                         reject({
                             response: {
-                                message: "Error al tratar de ejecutar la consulta",
+                                message: "Error al tratar de obtener la respuesta",
                                 status: "error",
                                 statusCode: 0
                             }
