@@ -1,6 +1,6 @@
 let db = require('../config/database.js')
 
-const activateUserAccount = (params) => 
+const activateAccount = (params) => 
 {
 
     return new Promise(function(resolve, reject) 
@@ -481,7 +481,7 @@ const userExist = (params) =>
 
 
 module.exports = {
-    activateUserAccount,
+    activateAccount,
     userBalance,
     userDetails,
     userDeviceToken,

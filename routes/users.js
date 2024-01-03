@@ -3,12 +3,12 @@ var router = express.Router()
 var mail = require('../models/emails.js')
 var usersModel = require('../models/users.js')
 
-router.get('/activate-user-account', async function(req, res, next) 
+router.get('/activate-account', async function(req, res, next) 
 {
 
     let userId = req.query.userId
     let params = [userId]
-    let data = await usersModel.activateUserAccount(params)
+    let data = await usersModel.activateAccount(params)
     
     res.render('users/activateUserAccount', {message: data.response.message});
 
