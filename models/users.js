@@ -87,7 +87,7 @@ const userDetails = (params) =>
             else 
             {
                 
-                resolve(result[0])
+                resolve({response: result[0]})
     
             }
     
@@ -231,8 +231,8 @@ const userStatus = (params) =>
         resolve({
             response: {
                 data: {
-                    "status": data.status_desc,
-                    "statusCode": data.status_id
+                    "status": data.response.status_desc,
+                    "statusCode": data.response.status_id
                 },
                 message: "Estatus del usuario",
                 status: "success",
