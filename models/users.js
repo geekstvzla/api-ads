@@ -231,8 +231,8 @@ const userStatus = (params) =>
         resolve({
             response: {
                 data: {
-                    "status": data.response.status_desc,
-                    "statusCode": data.response.status_id
+                    "statusDesc": data.response.status_desc,
+                    "statusId": data.response.status_id
                 },
                 message: "Estatus del usuario",
                 status: "success",
