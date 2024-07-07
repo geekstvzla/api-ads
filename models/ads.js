@@ -23,99 +23,128 @@ const adsToSee = (params) =>
             ORDER BY a.ad_id ASC
             LIMIT 1;`*/
         let queryString = `
-            SELECT a.ad_id,
-                   a.sponsor_id,
-                   a.sponsor_name
-            FROM vw_ads a
-            WHERE a.ad_id = (SELECT ROUND((RAND() * (21 - 1)) + 1))
-            AND a.ad_status_id = 1
-            AND a.ad_due_date > NOW()
-            ORDER BY a.ad_id ASC
-            LIMIT 1;`
+            SELECT (ROUND((RAND() * (21 - 1)) + 1)) AS ads_id;`
             
-        db.query(queryString, params, function(err, adsData) 
+        db.query(queryString, params, function(err, adsId) 
         {
 
-            if(err) 
+            if(err)
             {
-    
+
                 reject({
                     response: {
-                        message: "Error al tratar de ejecutar la consulta",
+                        error: err,
+                        message: "Error al tratar de ejecutar la consulta en la línea 25",
                         status: "error",
                         statusCode: 0
                     }
                 })
-    
-            } 
-            else 
+
+            }
+            else
             {
 
-                if(adsData.length > 0) {
+                let adId = adsId[0].ads_id
+                let queryString = `
+                SELECT a.ad_id,
+                       a.sponsor_id,
+                       a.sponsor_name
+                FROM vw_ads a
+                WHERE a.ad_id = ?
+                AND a.ad_status_id = 1
+                AND a.ad_due_date > NOW()
+                LIMIT 1;`
 
-                    let adId = adsData[0].ad_id
-                    let queryString = `
-                        SELECT a.ads_type_id,
-                               a.ads_type_desc,
-                               a.ads_url,
-                               a.play_time,
-                               a.ads_orientation_id,
-                               a.ads_orientation_desc
-                        FROM vw_ads a
-                        WHERE a.ad_id = ?
-                        AND a.ads_content_status_id = 1
-                        ORDER BY a.ads_content_order ASC;`
-                    db.query(queryString, [adId], function(err, adsContent) 
+                db.query(queryString, [adId], function(err, adsData) 
+                {
+
+                    if(err) 
                     {
-
-                        if(err) 
-                        {
-
-                            reject({
-                                response: {
-                                    message: "Error al tratar de ejecutar la consulta",
-                                    status: "error",
-                                    statusCode: 0,
-                                    host: params[1]
+            
+                        reject({
+                            response: {
+                                error: err,
+                                message: "Error al tratar de ejecutar la consulta",
+                                status: "error",
+                                statusCode: 0
+                            }
+                        })
+            
+                    } 
+                    else 
+                    {
+        
+                        if(adsData.length > 0) {
+        
+                            let adId = adsData[0].ad_id
+                            let queryString = `
+                                SELECT a.ads_type_id,
+                                        a.ads_type_desc,
+                                        a.ads_url,
+                                        a.play_time,
+                                        a.ads_orientation_id,
+                                        a.ads_orientation_desc
+                                FROM vw_ads a
+                                WHERE a.ad_id = ?
+                                AND a.ads_content_status_id = 1
+                                ORDER BY a.ads_content_order ASC;`
+                            db.query(queryString, [adId], function(err, adsContent) 
+                            {
+        
+                                if(err) 
+                                {
+        
+                                    reject({
+                                        response: {
+                                            message: "Error al tratar de ejecutar la consulta",
+                                            status: "error",
+                                            statusCode: 0,
+                                            host: params[1]
+                                        }
+                                    })
+        
+                                } 
+                                else 
+                                {
+        
+                                    resolve({
+                                        response: {
+                                            data: {
+                                                ad_content: adsContent,
+                                                ad_id: adsData[0].ad_id,
+                                                sponsor_id: adsData[0].sponsor_id,
+                                                sponsor_name: adsData[0].sponsor_name
+                                            },
+                                            message: "Se encontraron ADS",
+                                            status: "success",
+                                            statusCode: 1
+                                        }
+                                    })
+        
                                 }
+        
                             })
-
+        
                         } 
                         else 
                         {
-
+        
                             resolve({
                                 response: {
-                                    data: {
-                                        ad_content: adsContent,
-                                        ad_id: adsData[0].ad_id,
-                                        sponsor_id: adsData[0].sponsor_id,
-                                        sponsor_name: adsData[0].sponsor_name
-                                    },
-                                    message: "Se encontraron ADS",
+                                    message: "No se encontraron ADS disponibles para mostrar",
                                     status: "success",
-                                    statusCode: 1
+                                    statusCode: 3,
+                                    p: adsData,
+                                    query: queryString
                                 }
                             })
-
+        
                         }
+            
+                    }
 
-                    })
+                })
 
-                } 
-                else 
-                {
-
-                    resolve({
-                        response: {
-                            message: "No se encontraron ADS disponibles para mostrar",
-                            status: "success",
-                            statusCode: 3
-                        }
-                    })
-
-                }
-    
             }
     
         })
