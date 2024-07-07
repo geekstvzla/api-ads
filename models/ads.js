@@ -133,9 +133,7 @@ const adsToSee = (params) =>
                                 response: {
                                     message: "No se encontraron ADS disponibles para mostrar",
                                     status: "success",
-                                    statusCode: 3,
-                                    p: adsData,
-                                    query: queryString
+                                    statusCode: 3
                                 }
                             })
         
