@@ -7,7 +7,7 @@ const adsToSee = (params) =>
     return new Promise(function(resolve, reject) 
     { 
 
-        let queryString = `
+        /*let queryString = `
             SELECT a.ad_id,
                 a.sponsor_id,
                 a.sponsor_name
@@ -19,6 +19,15 @@ const adsToSee = (params) =>
                 AND ua.status_id = 1
             )
             AND a.ad_status_id = 1
+            AND a.ad_due_date > NOW()
+            ORDER BY a.ad_id ASC
+            LIMIT 1;`*/
+        let queryString = `
+            SELECT a.ad_id,
+                a.sponsor_id,
+                a.sponsor_name
+            FROM vw_ads a
+            WHERE a.ad_status_id = 1
             AND a.ad_due_date > NOW()
             ORDER BY a.ad_id ASC
             LIMIT 1;`
