@@ -24,10 +24,11 @@ const adsToSee = (params) =>
             LIMIT 1;`*/
         let queryString = `
             SELECT a.ad_id,
-                a.sponsor_id,
-                a.sponsor_name
+                   a.sponsor_id,
+                   a.sponsor_name
             FROM vw_ads a
-            WHERE a.ad_status_id = 1
+            WHERE a.ad_id = (SELECT ROUND((RAND() * (21 - 1)) + 1))
+            AND a.ad_status_id = 1
             AND a.ad_due_date > NOW()
             ORDER BY a.ad_id ASC
             LIMIT 1;`
