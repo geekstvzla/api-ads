@@ -1,49 +1,5 @@
 let db = require('../config/database.js')
 
-const adsTypesEnabled = () => {
-
-    return new Promise(function(resolve, reject) 
-    { 
-
-        let queryString = `SELECT t.ads_type_id,
-                                  t.description AS ads_type_desc 
-                           FROM ads_type t
-                           WHERE status_id = 1
-                           ORDER BY t.description ASC;`
-        db.query(queryString, async function(err, result) 
-        {
-
-            if(err) 
-            {
-    
-                reject({
-                    response: {
-                        message: "Error al tratar de ejecutar la consulta",
-                        status: "error",
-                        statusCode: 0
-                    }
-                })
-    
-            } 
-            else 
-            {
-                
-                resolve({resonse: result})
-    
-            }
-    
-        })
-
-    }).catch(function(error) 
-    {
-
-        console.log(error)
-        return error
-      
-    })
-
-}
-
 const currenciesEnabled = () => {
 
     return new Promise(function(resolve, reject) 
@@ -74,7 +30,13 @@ const currenciesEnabled = () => {
             else 
             {
                 
-                resolve({resonse: result})
+                resolve({
+                    response: {
+                        currencies: result,
+                        status: "success",
+                        statusCode: 1
+                    }
+                })
     
             }
     
