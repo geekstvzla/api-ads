@@ -158,6 +158,124 @@ const adsToSee = (params) =>
 
 }
 
+const createNewAd = (params) =>
+{
+
+    return new Promise(function(resolve, reject) 
+    { 
+
+        let queryString = `CALL sp_create_ad(?,?,@response);`
+        db.query(queryString, params, function(err, result) 
+        {
+
+            if(err) 
+            {
+    
+                reject({
+                    error: err,
+                    response: "error"
+                })
+    
+            } 
+            else 
+            {
+                
+                db.query('SELECT @response as response', async (err2, result2) => 
+                {
+
+                    if(err2) 
+                    {
+                        
+                        reject({
+                            error: err,
+                            response: "Error fetching data from the database"
+                        })
+            
+                    } 
+                    else 
+                    {
+                        
+                        let outputParam = JSON.parse(result2[0].response)
+                        resolve(outputParam)
+                        
+                    }   
+
+                })
+    
+            }
+    
+        })
+
+    }).catch(function(error) 
+    {
+
+        console.log("ERROR creating new ad")
+        console.log(error)
+        return error
+      
+    })
+
+}
+
+const createAdContent = (params) =>
+    {
+    
+        return new Promise(function(resolve, reject) 
+        { 
+    
+            let queryString = `CALL sp_create_ad_content(?,?,?,?,?,@response);`
+            db.query(queryString, params, function(err, result) 
+            {
+    
+                if(err) 
+                {
+        
+                    reject({
+                        error: err,
+                        response: "error"
+                    })
+        
+                } 
+                else 
+                {
+                    
+                    db.query('SELECT @response as response', async (err2, result2) => 
+                    {
+    
+                        if(err2) 
+                        {
+                            
+                            reject({
+                                error: err,
+                                response: "Error fetching data from the database"
+                            })
+                
+                        } 
+                        else 
+                        {
+                            
+                            let outputParam = JSON.parse(result2[0].response)
+                            resolve(outputParam)
+                            
+                        }   
+    
+                    })
+        
+                }
+        
+            })
+    
+        }).catch(function(error) 
+        {
+    
+            console.log("ERROR creating new ad")
+            console.log(error)
+            return error
+          
+        })
+    
+    }
+
 const viewedAd = (params) => 
 {
 
@@ -219,5 +337,7 @@ const viewedAd = (params) =>
 
 module.exports = {
     adsToSee,
+    createNewAd,
+    createAdContent,
     viewedAd
 }
