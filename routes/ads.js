@@ -18,7 +18,7 @@ router.post('/create-new-ad/', uploadAdsFold.single('file'), async function(req,
     
     let paramsAd = [amount, currencyId];
     const newAd = await adsModel.createNewAd(paramsAd);
-   
+
     const adId = newAd.response.adId;
     const url = process.env.AD_FILE_URL+"/"+adId+"."+fileExt;
 
