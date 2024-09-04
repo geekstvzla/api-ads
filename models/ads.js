@@ -22,8 +22,19 @@ const adsToSee = (params) =>
             AND a.ad_due_date > NOW()
             ORDER BY a.ad_id ASC
             LIMIT 1;`*/
+        /*let queryString = `
+            SELECT (ROUND((RAND() * (21 - 1)) + 1)) AS ads_id;`*/
+
         let queryString = `
-            SELECT (ROUND((RAND() * (21 - 1)) + 1)) AS ads_id;`
+            SELECT (ROUND((RAND() * (num_ads - 1)) + 1)) AS ads_id
+            FROM(
+            
+                SELECT COUNT(*) num_ads
+                FROM vw_ads a 
+                WHERE a.ad_status_id = 1 
+                AND a.ad_due_date > NOW()
+                
+            ) t;`;
             
         db.query(queryString, params, function(err, adsId) 
         {
