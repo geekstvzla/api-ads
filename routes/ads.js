@@ -18,16 +18,14 @@ router.post('/create-new-ad/', uploadAdsFold.single('file'), async function(req,
     
     let paramsAd = [amount, currencyId];
     const newAd = await adsModel.createNewAd(paramsAd);
-    console.log(newAd)
+   
     const adId = newAd.response.adId;
     const url = process.env.AD_FILE_URL+"/"+adId+"."+fileExt;
 
     let paramsAdContent = [adId, 1, playTime, url, 1];
-    console.log(paramsAdContent)
     const newAdContent = await adsModel.createAdContent(paramsAdContent);
-    console.log(newAdContent)
 
-    res.send("sape");
+    res.send(newAdContent);
 
 })
 
