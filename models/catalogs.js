@@ -20,6 +20,7 @@ const currenciesEnabled = () => {
     
                 reject({
                     response: {
+                        error: err,
                         message: "Error al tratar de ejecutar la consulta",
                         status: "error",
                         statusCode: 0
