@@ -1,4 +1,4 @@
+/public/ads
 /node_modules
 /config/database.js
-/.env
 .env
