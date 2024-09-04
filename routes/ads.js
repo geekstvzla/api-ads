@@ -17,7 +17,7 @@ router.post('/create-new-ad/', async (req, res, next) =>
     
     let paramsAd = [amount, currencyId];
     const newAd = await adsModel.createNewAd(paramsAd);
-    console.log(newAd)
+    
     const adId = newAd.response.adId;
     const url = process.env.AD_FILE_URL+"/"+adId+"."+fileExt;
 
