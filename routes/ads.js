@@ -2,17 +2,17 @@ var express = require('express');
 var router = express.Router();
 var adsModel = require('../models/ads.js');
 var usersModel = require('../models/users.js');
-const fs = require('fs');
+/*const fs = require('fs');
 const multer = require('multer');
-const uploadAdsFold = multer();
+const uploadAdsFold = multer();*/
 
-router.post('/create-new-ad/', uploadAdsFold.single('file'), async function(req, res, next) 
+router.post('/create-new-ad/', async (req, res, next) =>
 {
     
     let amount = req.body.amount;
     let currencyId = req.body.currencyId;
-    let file = req.file;
-    let fileExt = req.file.originalname.split('.').at(-1);
+    let file = req.files.file;
+    let fileExt = file.name.split('.').at(-1);
     let playTime = req.body.playTime;
     
     let paramsAd = [amount, currencyId];
@@ -21,20 +21,14 @@ router.post('/create-new-ad/', uploadAdsFold.single('file'), async function(req,
     const adId = newAd.response.adId;
     const url = process.env.AD_FILE_URL+"/"+adId+"."+fileExt;
 
-    fs.copyFile(file, '/public/ads/'+adId+"."+fileExt, (err) => {
-
-        if(err){
-            console.log(err);
-        }else{
-            console.log('source.txt was copied to destination.txt');
-        }
-        
-    });
-
     let paramsAdContent = [adId, 1, playTime, url, 1];
     const newAdContent = await adsModel.createAdContent(paramsAdContent);
 
-    res.send(newAdContent);
+    const destFile = process.env.AD_FILE_LOCAL_DEST+"/"+adId+"."+fileExt;
+    //const destFile = "./public/ads/"+adId+"."+fileExt;
+    file.mv(destFile);
+
+    res.send("newAdContent");
 
 })
 
