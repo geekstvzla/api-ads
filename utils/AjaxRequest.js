@@ -1,99 +1,66 @@
-var axios = require('axios')
+import axios from "axios"
 
-const ajax = (ajaxData) => {
+export const ajax = (ajaxData) => {
 
     return new Promise((resolve, reject) => {
+        
+        if(ajaxData.formData) {
 
-        request(ajaxData)
-        .then(function (response) {
+            axios.post(ajaxData.url, ajaxData.formData)
+            .then(async function (response) {
+                resolve(response)
+            })
+            .catch(error => {
 
-            if(response.status === 419) {
+                if(error.response) {
 
-                CSRFToken()
-                .then(function (response2) {
-
-                    if(response2) {
-                        resolve(ajax(ajaxData))
-                    }else{
-                        reject(error2)
+                    if(error.response.status === 419) {
+                        resolve({status: 419})
+                    } else {
+                        reject(error)
                     }
 
-                })
-                .catch(error2 => {
-                    reject(error2)
-                })
-
-            } else {
-                resolve(response)
-            }
-
-        })
-        .catch(error => {
-            reject(error)
-        })
-
-    })
-
-}
-
-const request = (ajaxData) => {
-
-    return new Promise((resolve, reject) => {
-
-        const options = {
-            headers: (ajaxData.headers) ? ajaxData.headers : null,
-            method: ajaxData.method,
-            data: (ajaxData.params && ajaxData.method === "post") ? ajaxData.params : null,
-            params: (ajaxData.params && ajaxData.method === "get") ? ajaxData.params : null,
-            url: ajaxData.url
-        };
-
-        axios(options)
-        .then(async function (response) {
-            resolve(response)
-        })
-        .catch(error => {
-
-            if(error.response) {
-
-                if(error.response.status === 419) {
-                    resolve({status: 419})
                 } else {
                     reject(error)
                 }
 
-            } else {
-                reject(error)
-            }
+            })
 
-        })
+        } else {
 
-    })
+            var options = {
+                method: ajaxData.method,
+                url: ajaxData.url
+            };
+    
+            if(ajaxData.formData) { options.formData = ajaxData.formData };
+            if(ajaxData.headers) { options.headers = ajaxData.headers };
+            if(ajaxData.params) { options.params = ajaxData.params };
 
-}
+            axios(options)
+            .then(async function (response) {
+                resolve(response)
+            })
+            .catch(error => {
+                
+                if(error.response) {
 
-const CSRFToken = () => {
+                    if(error.response.status === 419) {
+                        resolve({status: 419})
+                    } else {
+                        reject(error)
+                    }
 
-    return new Promise((resolve, reject) => {
+                } else {
+                    reject(error)
+                }
 
-        let ajaxData = {
-            method: "get",
-            url: "/getCSRFToken"
+            })
+
         }
 
-        ajax(ajaxData)
-        .then(function (response) {
-            axios.defaults.headers.common['X-CSRF-TOKEN'] = response.data.token
-            resolve({message: "Token generated", response: true})
-        })
-        .catch(error => {
-            resolve({message: "Error generating token", response: false})
-        })
-
     })
 
 }
 
-module.exports = { ajax, CSRFToken };
-
-
+export default ajax

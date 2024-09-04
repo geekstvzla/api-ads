@@ -46,14 +46,14 @@ const adsToSee = (params) =>
 
                 let adId = adsId[0].ads_id
                 let queryString = `
-                SELECT a.ad_id,
-                       a.sponsor_id,
-                       a.sponsor_name
-                FROM vw_ads a
-                WHERE a.ad_id = ?
-                AND a.ad_status_id = 1
-                AND a.ad_due_date > NOW()
-                LIMIT 1;`
+                    SELECT a.ad_id,
+                        a.sponsor_id,
+                        a.sponsor_name
+                    FROM vw_ads a
+                    WHERE a.ad_id = ?
+                    AND a.ad_status_id = 1
+                    AND a.ad_due_date > NOW()
+                    LIMIT 1;`
 
                 db.query(queryString, [adId], function(err, adsData) 
                 {
