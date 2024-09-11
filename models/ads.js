@@ -175,7 +175,7 @@ const createNewAd = (params) =>
     return new Promise(function(resolve, reject) 
     { 
 
-        let queryString = `CALL sp_create_ad(?,?,@response);`
+        let queryString = `CALL sp_create_ad(?,@response);`
         db.query(queryString, params, function(err, result) 
         {
 

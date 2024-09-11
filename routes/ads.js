@@ -9,13 +9,11 @@ const uploadAdsFold = multer();*/
 router.post('/create-new-ad/', async (req, res, next) =>
 {
     
-    let amount = req.body.amount;
-    let currencyId = req.body.currencyId;
     let file = req.files.file;
     let fileExt = file.name.split('.').at(-1);
     let playTime = req.body.playTime;
     
-    let paramsAd = [amount, currencyId];
+    let paramsAd = [playTime];
     const newAd = await adsModel.createNewAd(paramsAd);
     
     const adId = newAd.response.adId;
