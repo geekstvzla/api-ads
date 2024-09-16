@@ -55,7 +55,7 @@ router.post('/recover-password', async function(req, res, next)
     let params = [email]
     let data = await usersModel.recoverPassword(params)
 
-    if(data.response)
+    if(data.response.statusCode === 1)
     {
 
         emailParams = {email: email, password: data.response.password}
