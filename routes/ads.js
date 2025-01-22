@@ -8,6 +8,10 @@ const uploadAdsFold = multer();*/
 
 router.post('/create-new-ad/', async (req, res, next) =>
 {
+
+    req.on("close", () => {
+        console.log("closed connection");
+    });
     
     let file = req.files.file;
     let fileExt = file.name.split('.').at(-1);
@@ -31,6 +35,10 @@ router.post('/create-new-ad/', async (req, res, next) =>
 
 router.get('/see-ads/', async function(req, res, next) 
 {
+
+    req.on("close", () => {
+        console.log("closed connection");
+    });
 
     let host = req.hostname;
     let userId = req.query.userId;
@@ -62,6 +70,10 @@ router.get('/see-ads/', async function(req, res, next)
 /* Vio publicidad */
 router.post('/viewed-ad/', async function(req, res, next) 
 {
+
+    req.on("close", () => {
+        console.log("closed connection");
+    });
 
     let userId = req.query.userId;
     let adId = req.query.adId;

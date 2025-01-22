@@ -6,6 +6,10 @@ var usersModel = require('../models/users.js')
 router.get('/activate-account', async function(req, res, next) 
 {
 
+    req.on("close", () => {
+        console.log("closed connection");
+    });
+
     let userId = req.query.userId
     let params = [userId]
     let data = await usersModel.activateAccount(params)
@@ -16,6 +20,10 @@ router.get('/activate-account', async function(req, res, next)
 
 router.post('/user-balance', async function(req, res, next) 
 {
+
+    req.on("close", () => {
+        console.log("closed connection");
+    });
 
     let userId = req.query.userId
     let params = [userId]
@@ -28,6 +36,10 @@ router.post('/user-balance', async function(req, res, next)
 router.post('/user-status', async function(req, res, next) 
 {
 
+    req.on("close", () => {
+        console.log("closed connection");
+    });
+
     let userId = req.query.userId
     let params = [userId]
     let data = await usersModel.userStatus(params)
@@ -38,6 +50,10 @@ router.post('/user-status', async function(req, res, next)
 
 router.post('/user-device-token', async function(req, res, next) 
 {
+
+    req.on("close", () => {
+        console.log("closed connection");
+    });
 
     let token = req.query.token
     let userId = req.query.userId
@@ -50,6 +66,10 @@ router.post('/user-device-token', async function(req, res, next)
 
 router.post('/recover-password', async function(req, res, next) 
 {
+
+    req.on("close", () => {
+        console.log("closed connection");
+    });
 
     let email = req.query.email
     let params = [email]
@@ -69,6 +89,10 @@ router.post('/recover-password', async function(req, res, next)
 
 router.post('/sign-in', async function(req, res, next) 
 {
+
+    req.on("close", () => {
+        console.log("closed connection");
+    });
 
     let email = req.query.email
     let password = req.query.password
@@ -92,6 +116,10 @@ router.post('/sign-in', async function(req, res, next)
 router.post('/sign-up', async function(req, res, next) 
 {
 
+    req.on("close", () => {
+        console.log("closed connection");
+    });
+
     let birthday = req.query.birthday
     let email = req.query.email
     let genderId = req.query.genderId
@@ -99,7 +127,7 @@ router.post('/sign-up', async function(req, res, next)
     let password = req.query.password
     let deviceToken = req.query.token
     let params = [name, email, password, genderId, birthday, deviceToken]
-    let data = await usersModel.signUp(params)
+    let data = await usersModel.signUp(params);
     
     if(data.response.statusCode === 1)
     {
@@ -110,8 +138,8 @@ router.post('/sign-up', async function(req, res, next)
 
     }
 
-    res.send(data)
+    res.send(data);
 
-})
+});
 
 module.exports = router;

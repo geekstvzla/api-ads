@@ -1,5 +1,5 @@
-let db = require('../config/database.js')
-usersModel = require('./users.js')
+let db = require('../config/database.js');
+usersModel = require('./users.js');
 
 const adsToSee = (params) => 
 {
