@@ -5,11 +5,20 @@ var usersModel = require('../models/users.js');
 router.get('/', async function(req, res, next) 
 {
 
-    req.on("close", () => {
-        console.log("closed connection");
-    });
+    if(err)
+    {
+
+        console.log("Ocurrió un error");
+        console.log(err);
+        next(err);
+
+    } 
+    else 
+    {
     
-    res.render('index', { title: 'SERVIDOR CONEXPRO' });
+        res.render('index', { title: 'SERVIDOR CONEXPRO' });
+
+    };
 
 });
 
