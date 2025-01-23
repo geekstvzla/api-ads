@@ -5,23 +5,21 @@ var catalogsModel = require('../models/catalogs.js');
 router.get('/currencies-enabled', async function(req, res, next)
  {
 
-    if(err)
-    {
-
-        console.log("Ocurrió un error");
-        console.log(err);
-        next(err);
-
-    } 
-    else 
+    try 
     {
 
         req.on("close", () => {
-            console.log("closed connection");
+            console.log("closed connection en catalog.js");
         });
 
         let data = await catalogsModel.currenciesEnabled();
         res.send(data);
+
+    } catch (err) {
+
+        console.log("Ocurrió un error en catalog.js");
+        console.log(err);
+        next(err);
 
     };
 
@@ -30,18 +28,17 @@ router.get('/currencies-enabled', async function(req, res, next)
 router.get('/genders', async function(req, res, next)
 {
 
-    if(err)
-    {
-
-        console.log("Ocurrió un error");
-        console.log(err);
-        next(err);
-
-    } 
-    else 
+    try 
     {
         let data = await catalogsModel.genders();
         res.send(data);
+
+    } catch (err) {
+
+        console.log("Ocurrió un error en catalog.js");
+        console.log(err);
+        next(err);
+
     };
 
 });

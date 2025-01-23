@@ -5,18 +5,16 @@ var usersModel = require('../models/users.js');
 router.get('/', async function(req, res, next) 
 {
 
-    if(err)
-    {
-
-        console.log("Ocurrió un error");
-        console.log(err);
-        next(err);
-
-    } 
-    else 
+    try 
     {
     
         res.render('index', { title: 'SERVIDOR CONEXPRO' });
+
+    } catch (err) {
+
+        console.log("Ocurrió un error en index.js");
+        console.log(err);
+        next(err);
 
     };
 

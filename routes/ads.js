@@ -32,7 +32,7 @@ router.post('/create-new-ad/', async (req, res, next) =>
 
     } catch (err) {
 
-        console.log("Ocurrió un error");
+        console.log("Ocurrió un error en ads.js");
         console.log(err);
         next(err);
 
@@ -73,7 +73,7 @@ router.get('/see-ads/', async function(req, res, next)
 
     } catch (err) {
 
-        console.log("Ocurrió un error");
+        console.log("Ocurrió un error en ads.js");
         console.log(err);
         next(err);
 
@@ -97,7 +97,7 @@ router.post('/viewed-ad/', async function(req, res, next)
 
     } catch (err) {
 
-        console.log("Ocurrió un error");
+        console.log("Ocurrió un error en ads.js");
         console.log(err);
         next(err);
 

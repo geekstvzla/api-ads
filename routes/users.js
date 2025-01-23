@@ -17,7 +17,7 @@ router.get('/activate-account', async function(req, res, next)
 
     } catch (err) {
 
-        console.log("Ocurrió un error");
+        console.log("Ocurrió un error en users.js");
         console.log(err);
         next(err);
 
@@ -39,7 +39,7 @@ router.post('/user-balance', async function(req, res, next)
 
     } catch (err) {
 
-        console.log("Ocurrió un error");
+        console.log("Ocurrió un error en users.js");
         console.log(err);
         next(err);
 
@@ -61,7 +61,7 @@ router.post('/user-status', async function(req, res, next)
 
     } catch (err) {
 
-        console.log("Ocurrió un error");
+        console.log("Ocurrió un error en users.js");
         console.log(err);
         next(err);
 
@@ -84,7 +84,7 @@ router.post('/user-device-token', async function(req, res, next)
 
     } catch (err) {
 
-        console.log("Ocurrió un error");
+        console.log("Ocurrió un error en users.js");
         console.log(err);
         next(err);
 
@@ -114,7 +114,7 @@ router.post('/recover-password', async function(req, res, next)
 
     } catch (err) {
 
-        console.log("Ocurrió un error");
+        console.log("Ocurrió un error en users.js");
         console.log(err);
         next(err);
 
@@ -147,7 +147,7 @@ router.post('/sign-in', async function(req, res, next)
 
     } catch (err) {
 
-        console.log("Ocurrió un error");
+        console.log("Ocurrió un error en users.js");
         console.log(err);
         next(err);
 
@@ -183,7 +183,7 @@ router.post('/sign-up', async function(req, res, next)
 
     } catch (err) {
 
-        console.log("Ocurrió un error");
+        console.log("Ocurrió un error en users.js");
         console.log(err);
         next(err);
 
