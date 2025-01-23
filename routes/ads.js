@@ -9,15 +9,7 @@ const uploadAdsFold = multer();*/
 router.post('/create-new-ad/', async (req, res, next) =>
 {
 
-    if(err)
-    {
-
-        console.log("Ocurrió un error");
-        console.log(err);
-        next(err);
-
-    } 
-    else 
+    try 
     {
 
         let file = req.files.file;
@@ -38,6 +30,12 @@ router.post('/create-new-ad/', async (req, res, next) =>
 
         res.send(newAdContent);
 
+    } catch (err) {
+
+        console.log("Ocurrió un error");
+        console.log(err);
+        next(err);
+
     };
 
 });
@@ -45,15 +43,7 @@ router.post('/create-new-ad/', async (req, res, next) =>
 router.get('/see-ads/', async function(req, res, next) 
 {
 
-    if(err)
-    {
-
-        console.log("Ocurrió un error");
-        console.log(err);
-        next(err);
-
-    } 
-    else 
+    try 
     {
 
         let host = req.hostname;
@@ -81,6 +71,12 @@ router.get('/see-ads/', async function(req, res, next)
 
         };
 
+    } catch (err) {
+
+        console.log("Ocurrió un error");
+        console.log(err);
+        next(err);
+
     };
 
 });
@@ -89,15 +85,7 @@ router.get('/see-ads/', async function(req, res, next)
 router.post('/viewed-ad/', async function(req, res, next) 
 {
 
-    if(err)
-    {
-
-        console.log("Ocurrió un error");
-        console.log(err);
-        next(err);
-
-    } 
-    else 
+    try 
     {
 
         let userId = req.query.userId;
@@ -107,7 +95,13 @@ router.post('/viewed-ad/', async function(req, res, next)
 
         res.send(response);
 
-    }
+    } catch (err) {
+
+        console.log("Ocurrió un error");
+        console.log(err);
+        next(err);
+
+    };
 
 });
 
