@@ -6,15 +6,7 @@ var usersModel = require('../models/users.js');
 router.get('/activate-account', async function(req, res, next) 
 {
 
-    if(err)
-    {
-
-        console.log("Ocurrió un error");
-        console.log(err);
-        next(err);
-
-    } 
-    else 
+    try 
     {
 
         let userId = req.query.userId;
@@ -23,6 +15,12 @@ router.get('/activate-account', async function(req, res, next)
         
         res.render('users/activateUserAccount', {message: data.response.message});
 
+    } catch (err) {
+
+        console.log("Ocurrió un error");
+        console.log(err);
+        next(err);
+
     };
 
 });
@@ -30,15 +28,7 @@ router.get('/activate-account', async function(req, res, next)
 router.post('/user-balance', async function(req, res, next) 
 {
 
-    if(err)
-    {
-
-        console.log("Ocurrió un error");
-        console.log(err);
-        next(err);
-
-    } 
-    else 
+    try 
     {
 
         let userId = req.query.userId;
@@ -47,6 +37,12 @@ router.post('/user-balance', async function(req, res, next)
 
         res.send(data);
 
+    } catch (err) {
+
+        console.log("Ocurrió un error");
+        console.log(err);
+        next(err);
+
     };
 
 });
@@ -54,15 +50,7 @@ router.post('/user-balance', async function(req, res, next)
 router.post('/user-status', async function(req, res, next) 
 {
 
-    if(err)
-    {
-
-        console.log("Ocurrió un error");
-        console.log(err);
-        next(err);
-
-    } 
-    else 
+    try 
     {
 
         let userId = req.query.userId;
@@ -71,6 +59,12 @@ router.post('/user-status', async function(req, res, next)
 
         res.send(data);
 
+    } catch (err) {
+
+        console.log("Ocurrió un error");
+        console.log(err);
+        next(err);
+
     };
 
 })
@@ -78,15 +72,7 @@ router.post('/user-status', async function(req, res, next)
 router.post('/user-device-token', async function(req, res, next) 
 {
 
-    if(err)
-    {
-
-        console.log("Ocurrió un error");
-        console.log(err);
-        next(err);
-
-    } 
-    else 
+    try 
     {
 
         let token = req.query.token;
@@ -96,6 +82,12 @@ router.post('/user-device-token', async function(req, res, next)
 
         res.send(data);
 
+    } catch (err) {
+
+        console.log("Ocurrió un error");
+        console.log(err);
+        next(err);
+
     };
 
 });
@@ -103,15 +95,7 @@ router.post('/user-device-token', async function(req, res, next)
 router.post('/recover-password', async function(req, res, next) 
 {
 
-    if(err)
-    {
-
-        console.log("Ocurrió un error");
-        console.log(err);
-        next(err);
-
-    } 
-    else 
+    try 
     {
 
         let email = req.query.email
@@ -128,6 +112,12 @@ router.post('/recover-password', async function(req, res, next)
 
         res.send(data);
 
+    } catch (err) {
+
+        console.log("Ocurrió un error");
+        console.log(err);
+        next(err);
+
     };
 
 });
@@ -135,15 +125,7 @@ router.post('/recover-password', async function(req, res, next)
 router.post('/sign-in', async function(req, res, next) 
 {
 
-    if(err)
-    {
-
-        console.log("Ocurrió un error");
-        console.log(err);
-        next(err);
-
-    } 
-    else 
+    try 
     {
 
         let email = req.query.email
@@ -163,6 +145,12 @@ router.post('/sign-in', async function(req, res, next)
 
         res.send(data);
 
+    } catch (err) {
+
+        console.log("Ocurrió un error");
+        console.log(err);
+        next(err);
+
     };
 
 })
@@ -170,15 +158,7 @@ router.post('/sign-in', async function(req, res, next)
 router.post('/sign-up', async function(req, res, next) 
 {
 
-    if(err)
-    {
-
-        console.log("Ocurrió un error");
-        console.log(err);
-        next(err);
-
-    } 
-    else 
+    try 
     {
 
         let birthday = req.query.birthday
@@ -200,6 +180,12 @@ router.post('/sign-up', async function(req, res, next)
         }
 
         res.send(data);
+
+    } catch (err) {
+
+        console.log("Ocurrió un error");
+        console.log(err);
+        next(err);
 
     };
 
