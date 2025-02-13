@@ -23,7 +23,7 @@ const adsToSee = (params) =>
             ORDER BY a.ad_id ASC
             LIMIT 1;`*/
         /*let queryString = `
-            SELECT (ROUND((RAND() * (21 - 1)) + 1)) AS ads_id;`*/
+            SELECT (ROUND((RAND() * (500 - 1)) + 1)) AS ads_id;`*/
 
         let queryString = `
             SELECT (ROUND((RAND() * (num_ads - 1)) + 1)) AS ads_id
