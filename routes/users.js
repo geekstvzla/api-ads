@@ -25,6 +25,27 @@ router.get('/activate-account', async function(req, res, next)
 
 });
 
+router.get('/searching-users', async function(req, res, next) 
+{
+
+    try 
+    {
+
+        let userString = req.query.userString;
+        let data = await usersModel.searchUserBy(userString);
+        console.log(data)
+        res.send(data);
+
+    } catch (err) {
+
+        console.log("Ocurrió un error en users.js");
+        console.log(err);
+        next(err);
+
+    };
+
+});
+
 router.post('/user-balance', async function(req, res, next) 
 {
 

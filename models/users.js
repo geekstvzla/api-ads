@@ -63,6 +63,60 @@ const activateAccount = (params) =>
 
 }
 
+const searchUserBy = (userString) =>
+{
+
+    return new Promise(function(resolve, reject) 
+    { 
+        
+        if(validEmail(userString)) {
+            var filterBy = `WHERE UPPER(email) LIKE "${userString}%" ORDER BY email ASC;`;
+        } else if(!isNaN(userString)) {
+            var filterBy = `WHERE dni LIKE "${userString}%" ORDER BY dni ASC;`;
+        } else {
+            var filterBy = `WHERE UPPER(name) LIKE UPPER("${userString}%") ORDER BY name ASC;`;
+        };
+
+        let queryString = `SELECT * FROM vw_users `+filterBy;
+        db.query(queryString, null, async function(err, result) {
+
+            if(err) 
+            {
+          
+                reject({
+                    response: {
+                        message: "Error al tratar de ejecutar la consulta",
+                        status: "error",
+                        statusCode: 0
+                    }
+                });
+    
+            } 
+            else 
+            {
+                
+                resolve({users: result});
+    
+            }
+    
+        });
+
+    }).catch(function(error) 
+    {
+
+        return error
+      
+    });
+
+}
+
+const validEmail = (string) => {
+
+    const regex = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
+    return regex.test(string);
+
+}
+
 const userDetails = (params) => 
 {
 
@@ -487,6 +541,7 @@ module.exports = {
     userDeviceToken,
     userStatus,
     recoverPassword,
+    searchUserBy,
     signIn,
     signUp,
     userExist
