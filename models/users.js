@@ -156,6 +156,58 @@ const userDetails = (params) =>
 
 }
 
+const userInfo = (userId) =>
+{
+
+    return new Promise(function(resolve, reject) 
+    { 
+
+        let queryString = `SELECT u.user_id,
+                                  u.name,
+                                  u.dni,
+                                  u.email,
+                                  ub.currency_id, 
+                                  ub.currency_name, 
+                                  ub.currency_abb, 
+                                  ub.currency_symbol, 
+                                  ub.amount
+                           FROM  vw_users u
+                           INNER JOIN vw_user_balance ub ON ub.user_id = u.user_id
+                           WHERE u.user_id = ? 
+                           AND ub.currency_id = (SELECT s.value FROM settings s WHERE s.name = "default-currency");`
+        db.query(queryString, [userId], async function(err, result)
+        {
+
+            if(err) 
+            {
+    
+                reject({
+                    response: {
+                        message: "Error al tratar de ejecutar la consulta",
+                        status: "error",
+                        statusCode: 0
+                    }
+                });
+    
+            } 
+            else 
+            {
+                
+                resolve({userInfo: result[0]}); 
+    
+            }
+    
+        })
+
+    }).catch(function(error) 
+    {
+
+        return error
+      
+    });
+
+}
+
 const userBalance = (params) => 
 {
 
@@ -214,7 +266,7 @@ const userBalance = (params) =>
 
         return error
       
-    })
+    });
 
 }
 
@@ -544,5 +596,6 @@ module.exports = {
     searchUserBy,
     signIn,
     signUp,
-    userExist
+    userExist,
+    userInfo
 }
