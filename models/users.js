@@ -63,6 +63,69 @@ const activateAccount = (params) =>
 
 }
 
+const saveUserInfo = (params) => 
+{
+
+    return new Promise(function(resolve, reject) 
+    { 
+
+        let queryString = `CALL sp_update_user_info(?,?,?,?,?,@response);`
+        db.query(queryString, params, function(err, result) 
+        {
+
+            if(err) 
+            {
+    
+                reject({
+                    response: {
+                        message: "Error al tratar de ejecutar la consulta",
+                        status: "error",
+                        statusCode: 0
+                    }
+                })
+    
+            } 
+            else 
+            {
+
+                db.query('SELECT @response as response', (err2, result2) => 
+                {
+
+                    if(err2) 
+                    {
+    
+                        reject({
+                            response: {
+                                message: "Error al tratar de ejecutar la consulta",
+                                status: "error",
+                                statusCode: 0
+                            }
+                        })
+            
+                    } 
+                    else 
+                    {
+                    
+                        let outputParam = JSON.parse(result2[0].response);
+                        resolve(outputParam)
+                        
+                    }   
+
+                })
+    
+            }
+    
+        });
+
+    }).catch(function(error) 
+    {
+
+        return error
+      
+    })
+
+}
+
 const searchUserBy = (userString) =>
 {
 
@@ -593,6 +656,7 @@ module.exports = {
     userDeviceToken,
     userStatus,
     recoverPassword,
+    saveUserInfo,
     searchUserBy,
     signIn,
     signUp,
