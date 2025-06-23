@@ -175,8 +175,9 @@ router.post('/save-user-info', async function(req, res, next)
         let balance = req.query.balance;
         let dni = req.query.dni;
         let name = req.query.name;
-        let params = [userId, email, balance, dni, name];
-        //let data = await usersModel.saveUserInfo(params)
+        let currencyId = req.query.currencyId;
+        let params = [userId, email, balance, currencyId, dni, name];
+        let data = await usersModel.saveUserInfo(params)
 
         res.send(params);
 

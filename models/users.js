@@ -69,7 +69,7 @@ const saveUserInfo = (params) =>
     return new Promise(function(resolve, reject) 
     { 
 
-        let queryString = `CALL sp_update_user_info(?,?,?,?,?,@response);`
+        let queryString = `CALL sp_update_user_info(?,?,?,?,?,?,@response);`
         db.query(queryString, params, function(err, result) 
         {
 
