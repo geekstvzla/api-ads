@@ -164,6 +164,32 @@ router.post('/recover-password', async function(req, res, next)
 
 });
 
+router.post('/save-user-info', async function(req, res, next) 
+{
+
+    try 
+    {
+
+        let userId = req.query.userId;
+        let email = req.query.email;
+        let balance = req.query.balance;
+        let dni = req.query.dni;
+        let name = req.query.name;
+        let params = [userId, email, balance, dni, name];
+        //let data = await usersModel.saveUserInfo(params)
+
+        res.send(params);
+
+    } catch (err) {
+
+        console.log("Ocurrió un error en users.js");
+        console.log(err);
+        next(err);
+
+    };
+
+})
+
 router.post('/sign-in', async function(req, res, next) 
 {
 
