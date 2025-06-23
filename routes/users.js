@@ -179,7 +179,7 @@ router.post('/save-user-info', async function(req, res, next)
         let params = [userId, email, balance, currencyId, dni, name];
         let data = await usersModel.saveUserInfo(params)
 
-        res.send(params);
+        res.send(data);
 
     } catch (err) {
 
