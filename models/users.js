@@ -63,6 +63,45 @@ const activateAccount = (params) =>
 
 }
 
+const activeUsers = () =>
+{
+
+    return new Promise(function(resolve, reject) 
+    { 
+        
+        let queryString = `SELECT COUNT(*) active_users FROM users WHERE status_id = 1;`;
+        db.query(queryString, null, async function(err, result) {
+
+            if(err) 
+            {
+          
+                reject({
+                    response: {
+                        message: "Error al tratar de ejecutar la consulta",
+                        status: "error",
+                        statusCode: 0
+                    }
+                });
+    
+            } 
+            else 
+            {
+                
+                resolve({users: result[0]["active_users"]});
+    
+            }
+    
+        });
+
+    }).catch(function(error) 
+    {
+
+        return error
+      
+    });
+
+}
+
 const saveUserInfo = (params) => 
 {
 
@@ -651,6 +690,7 @@ const userExist = (params) =>
 
 module.exports = {
     activateAccount,
+    activeUsers,
     userBalance,
     userDetails,
     userDeviceToken,
